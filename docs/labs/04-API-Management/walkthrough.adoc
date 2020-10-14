@@ -59,7 +59,7 @@ Open link:{fuse-user-url}[Fuse Online Console, window="_blank"] and log in with 
 image::images/01.png[]
 image::images/01-2.png[]
 
-Click on `Connections`
+Now that you are on the iPaaS solution Red Hat Fuse, Click on `Connections`
 
 image::images/02.png[]
 
@@ -67,25 +67,24 @@ Click on `Create Connection`
 
 image::images/03.png[]
 
-Then, select `Database`
+Then, filter for `database` and select the `Database` connection
 
 image::images/04.png[]
 
 Fill the database configuration with the following values:
 
-```properties
+[source,properties,subs="attributes+"]
+----
 url: jdbc:postgresql://postgresql.fuse-demo:5432/sampledb
 user: redhat
 password: redhat
-```
+----
 
 image::images/05.png[]
 
 Now, click on `Validate` to make sure everything is working as expected. If it is all good, click on `Next`.
 
-image::images/09.png[]
-
-The Connection Name is: `Users Database`. Then, click on `Create`
+Fill `Users Database` for the *Connection Name*. Then, click on `Create`
 
 image::images/06.png[]
 
@@ -93,11 +92,11 @@ Now you should see connection `Users Database` listed in the connections page.
 
 image::images/10.png[]
 
-We are good to go for our API creation demo.
-
 === Design and Create the Users API from Scratch
 
-Back to our `Home` page, click on `Create Integration`
+Now the we have the Users database already configured as a valid connection, we will create the connection to interact with this database and export it as a REST API.
+
+On the side menu `Integrations`, select `Create Integration`
 
 image::images/11.png[]
 
@@ -109,24 +108,26 @@ Choose `Create from scratch`
 
 image::images/13.png[]
 
+Give it a name:
+
+image::images/14-1.png[]
+
 Click on `Add a data type`
 
 image::images/14.png[]
 
-Give it a name like: `User`
+Fill the *Name* field with the value `User` and 
+Paste the following Json and choose `REST Resource`. Then, click `Save`.
 
-image::images/15.png[]
-
-Paste the following json example and choose `REST Resource`. Then, click `Save`.
-
-```json
+[source,json,subs="attributes+"]
+----
 {
     "id": 0,
     "name": "Rodrigo Ramalho",
     "phone": "11 95474-8099",
     "age": 30
 }
-```
+----
 
 Click `Save` again.
 
@@ -136,11 +137,13 @@ Now, click on `Next`
 
 image::images/17.png[]
 
-And give a name for our integration: `Users API`. Click on `Save and continue`
-
-image::images/18.png[]
-
 === Creating an API for `Get All Users` (GET)
+
+On the previous step, we managed to create all the API Specification using a NiceUI based on the open source project *Apicurio*. 
+Now that we defined which are the contract of our API, let's start the development of each method, that in Fuse Online we call it 
+as a *Flow*. 
+
+We are going to implement *just two of them*, the *GET method to retrieve all the users and the *POST to create a new user*.
 
 Create now a flow for the GET Method that list all users:
 
@@ -162,7 +165,7 @@ Fill the `SQL Statement` with: `select * from users` and then click `Next`
 
 image::images/23.png[]
 
-Add a log step in our flow. Click again on the `+`:
+Let's add a log step for debug purposes in our flow. Click again on the `+`:
 
 image::images/24.png[]
 
@@ -174,15 +177,12 @@ In the `Custom Text`, write `Loading users from database` and click `Done`.
 
 image::images/26.png[]
 
-Now, let's add a data mapping to our flow. In the last step, click in the yellow icon and then go to `Add a data mapping step`.
+Can you see a warning showing that we have a mapping conflict? 
+In order to solve it, let's add a data mapping to our flow. In the last step, click in the yellow icon and then go to `Add a data mapping step`.
 
 image::images/27.png[]
 
-Expand both panel clicking on the arrows:
-
-image::images/28.png[]
-
-Now, drag and drop the source fields matching with the target fields and then click on `Done`.
+Expand both panel clicking on the arrows, drag and drop the source fields matching with the target fields and then click on `Done`.
 
 image::images/29.png[]
 
@@ -190,13 +190,15 @@ Click now on `Save`.
 
 image::images/30.png[]
 
+image::images/30-1.png[]
+
 === Creating API for `Create a users` (POST)
 
 From the combobox `Operations`, choose `Create a users`:
 
 image::images/31.png[]
 
-Repeat the same steps you did when `Creating an API for Get All Users (GET)`
+Repeat the same steps you did on the previous step: `Creating an API for Get All Users (GET)`
 
 When adding the Users Database, you need to click on `Invoke SQL to obtain, store, update or delete data` and add `INSERT INTO USERS(NAME,PHONE,AGE) VALUES(:#NAME,:#PHONE,:#AGE);` in the field `SQL statement`.
 
@@ -220,27 +222,19 @@ If you go to the `Home` page, we have 1 integration running.
 
 image::images/37.png[]
 
-Our last step is to expose our integration on Openshift using `Route`s.
-
-```bash
-oc create route edge i-users-api --service=i-users-api -n fuse
-```
-
 === Testing your integration
 
-You can check if your integration is working properly running:
+You can check if your integration is working properly running clicking on `View` Integration and Copy and the External URL.
 
-[source,bash,subs="attributes+"]
-----
-curl https://$(oc get route -n fuse | grep i-users-api | awk '{print $2"/users"}')
-----
+With the URL in hand, try to do a GET on the /users endpoint.
 
-Or you can try with [httpie](https://httpie.org/):
+Also, take a look into the logs into the new deployed application, it's a Apache Camel microservice. 
+All the work that we have done so far through this righ GUI it's generating Camel routes, if you look in details you can see by the logs 
+that the API Specification is available on the `/openapi.json` endpoint.
 
-[source,java,subs="attributes+"]
-----
-http https://$(oc get route -n fuse | grep i-users-api | awk '{print $2"/users"}')
-----
+[type=verification]
+Could you see the list of users returned by the /users endpoint?
+
 
 === Exposing your API using 3Scale
 
