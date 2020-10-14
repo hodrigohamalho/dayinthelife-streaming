@@ -19,19 +19,13 @@ The first step was to migrate their ecommerce orders website from a legacy Sprin
 
 *Overview*
 
-AMQ self-service messaging enables developers to provision messaging when and where they need it via a web-based browser. You will create your own personal space to create events destinations that will be used by your applications with different patterns like queues and topics.
+image::images/00-lab-overview-01.png[Overview, role="integr8ly-img-responsive"]
 
-image::images/lab1-overview.png[Overview, role="integr8ly-img-responsive"]
+image::images/00-lab-overview-02.png[Overview, role="integr8ly-img-responsive"]
+
+image::images/00-lab-overview-03.png[Overview, role="integr8ly-img-responsive"]
 
 Red Hat Integration includes an integration Platform-as-a-Service (iPaaS) solution that makes it easy for business users to collaborate with integration experts and application developers. It is a full toolchain and runtime, available right from your browser. You will use this tool to design and implement a new API service and to connect with the Event bus provided by AMQ Online.
-
-*Why Red Hat?*
-
-The Red Hat portfolio of middleware products helps you create a unified environment for application development, delivery, integration, and automation. It is comprised of comprehensive frameworks, integration solutions, process automation, runtimes, and programming languages.
-
-To respond to business demands quickly and efficiently, you need a way to integrate applications and data spread across your enterprise. Red Hat AMQ —based on open source communities like Apache ActiveMQ and Apache Kafka— is a flexible messaging platform that delivers information reliably, enabling real-time integration and connecting the Internet of Things (IoT).
-
-AMQ Online is a solution (Operator) to manage multiple components to provide the overall functionality of running self-service (Messaging as a Service) messaging platform on OpenShift. With AMQ online, developers can provision messaging when and where they need it through a browser console. The AMQ online component is built on the foundation of Red Hat OpenShift, a container platform for high scalability and availability of cloud-native applications.
 
 *Credentials*
 
@@ -40,10 +34,10 @@ Use the following credentials to login into the web consoles:
 * Your *username* is: `{user-username}`
 * Your *password* is: `{user-password}`
 
-[type=walkthroughResource,serviceName=codeready]
-.Red Hat CodeReady Workspaces
+[type=walkthroughResource]
+.Fuse Online
 ****
-* link:{codeready-url}[Console, window="_blank", , id="resources-codeready-url"]
+* link:{fuse-user-url}[Fuse Online Console, window="_blank", , id="resources-fuse-user-url"]
 ****
 [type=walkthroughResource]
 .Red Hat OpenShift Developer Console
@@ -53,131 +47,13 @@ Use the following credentials to login into the web consoles:
 
 :sectnums:
 
-[time=5]
-[id="Getting Ready"]
-== Getting ready for the labs
+== Creating the Users API using the Low code Integration Solution Fuse Online
 
-[IMPORTANT]
-====
-Please complete the following instructions to get ready for this lab. *If this is not the first lab you are doing today, and you have already completed this step in any of the previous labs, please skip to next task*.
-====
+In order to create the Users API, first we need to manage to connect with the Users database.
 
-=== Login into the OpenShift cluster
+=== Creating the connection with the Users Database
 
-. Finally, you will need to login into the OpenShift CLI to start interacting with the platform. For login, issue the following command:
-+
-[source,bash,subs="attributes+"]
-----
-oc login -u {user-username} -p {user-password} https://$KUBERNETES_SERVICE_HOST:$KUBERNETES_SERVICE_PORT --insecure-skip-tls-verify=true
-----
-
-. You should see something like the following (the project names may be different):
-+
-----
-Login successful.
-
-You have access to the following projects and can switch between them with 'oc project <projectname>':
-
-    shared-db-earth
-    shared-kafka-earth
-  * user1
-    user1-che
-    user1-dayinthel-0605
-    user1-shared-475f
-
-Using project "user1".
-Welcome! See 'oc help' to get started.
-----
-
-. Most of the work will be deploy to your own `{namespace}` project namespace, so be sure to have it as a _working_ project by executing the following command:
-+
-[source,bash,subs="attributes+"]
-----
-oc project {namespace}
-----
-
-. Now you are ready to start working on the application services.
-
-Demo showing Fuse Online and 3Scale. This guide was based on [Rodrigo Ramalho demo](https://gist.github.com/hodrigohamalho/a52dfb24383c89b4c6b1022123e195f2).
-
-We will create and expose an API that get data from a posgresql database using Fuse Online. After that, we'll expose it through 3Scale.
-
-> No code is necessary for this demo
-
-== Slides
-
-* https://docs.google.com/presentation/d/1MNQHqjj4XZAe7WWRiByu5VTzKuSK3-s-ZBL5uP2Sp-8/edit#slide=id.g5892f11135_0_756
-
-== Links
-
-* 3Scale Dashboard Samples: https://rramalho-admin.3scale.net
-* Apicurio: https://www.apicur.io/
-* Microcks: http://microcks.github.io/
-* Syndesis Extensions: https://github.com/syndesisio/syndesis-extensions
-
-== Pre-req
-
-#== Integrately Environment
-
-You need to create an integrately environment
-
-#== Creating database on Openshift
-
-First, login to Openshift using a token.
-
-image::images/07.png[]
-
-And then copy to clipboard your login command
-
-image::images/08.png[]
-
-Now, let's create a new database in a project named `fuse-demo`:
-
-[source,java,subs="attributes+"]
-----
-# Create new project on Openshift
-oc new-project fuse-demo
-
-# Create a new postgresql database using a Openshift template
-oc new-app --template=postgresql-persistent --param=POSTGRESQL_PASSWORD=redhat --param=POSTGRESQL_USER=redhat --param=POSTGRESQL_DATABASE=sampledb -n fuse-demo
-----
-
-When the pod is ready, run:
-
-```bash
-# Get postgresql pod name
-POD_POSTGRESQL=$(oc get po | grep postgresql | awk '{print $1}')
-
-# Create database
-oc exec -it $POD_POSTGRESQL -- bash -c 'psql -U redhat -d sampledb -c "CREATE TABLE users(id serial PRIMARY KEY,name VARCHAR (50),phone VARCHAR (50),age integer);"'
-
-# Populate the database
-oc exec -it $POD_POSTGRESQL -- bash -c "psql -U redhat -d sampledb -c \"INSERT INTO users(name, phone, age) VALUES  ('Rodrigo Ramalho', '(11) 95474-8099', 30);\""
-oc exec -it $POD_POSTGRESQL -- bash -c "psql -U redhat -d sampledb -c \"INSERT INTO users(name, phone, age) VALUES  ('Thiago Araki', '(11) 95474-8099', 31);\""
-oc exec -it $POD_POSTGRESQL -- bash -c "psql -U redhat -d sampledb -c \"INSERT INTO users(name, phone, age) VALUES  ('Gustavo Luszczynski', '(11) 95474-8099', 29);\""
-oc exec -it $POD_POSTGRESQL -- bash -c "psql -U redhat -d sampledb -c \"INSERT INTO users(name, phone, age) VALUES  ('Rafael Tuelho', '(11) 95474-8099', 55);\""
-oc exec -it $POD_POSTGRESQL -- bash -c "psql -U redhat -d sampledb -c \"INSERT INTO users(name, phone, age) VALUES  ('Elvis is not dead', '(11) 95474-8099', 36);\""
-
-# Make sure your data is saved
-oc exec -it $POD_POSTGRESQL -- bash -c "psql -U redhat -d sampledb -c \"select * from users;\""
-```
-
-> If for some reason you need to reinstall the database, just run:
-
-[source,java,subs="attributes+"]
-----
-oc delete all -l app=postgresql-persistent -n fuse-demo
-oc delete pvc postgresql -n fuse-demo
-oc delete secret postgresql -n fuse-demo
-----
-
-=== Creating a Database Connection on Fuse Online
-
-Open your tutorial page: https://tutorial-web-app-webapp.apps.latam-3a88.openshiftworkshop.com
-
-> Update this url `https://tutorial-web-app-webapp.apps.latam-3a88.openshiftworkshop.com` according to your environment
-
-Open Fuse Online
+Open link:{fuse-user-url}[Fuse Online Console, window="_blank"]
 
 image::images/01.png[]
 
@@ -217,9 +93,7 @@ image::images/10.png[]
 
 We are good to go for our API creation demo.
 
-== Demo
-
-#== Create an API from Scratch
+=== Design and Create the Users API from Scratch
 
 Back to our `Home` page, click on `Create Integration`
 
@@ -264,7 +138,7 @@ And give a name for our integration: `Users API`. Click on `Save and continue`
 
 image::images/18.png[]
 
-##== Creating an API for `Get All Users` (GET)
+=== Creating an API for `Get All Users` (GET)
 
 Create now a flow for the GET Method that list all users:
 
@@ -314,7 +188,7 @@ Click now on `Save`.
 
 image::images/30.png[]
 
-##== Creating API for `Create a users` (POST)
+=== Creating API for `Create a users` (POST)
 
 From the combobox `Operations`, choose `Create a users`:
 
@@ -350,23 +224,25 @@ Our last step is to expose our integration on Openshift using `Route`s.
 oc create route edge i-users-api --service=i-users-api -n fuse
 ```
 
-#== Testing your integration
+=== Testing your integration
 
 You can check if your integration is working properly running:
 
-```bash
+[source,bash,subs="attributes+"]
+----
 curl https://$(oc get route -n fuse | grep i-users-api | awk '{print $2"/users"}')
-```
+----
 
 Or you can try with [httpie](https://httpie.org/):
 
-```bash
+[source,java,subs="attributes+"]
+----
 http https://$(oc get route -n fuse | grep i-users-api | awk '{print $2"/users"}')
-```
+----
 
-#== Exposing your API using 3Scale
+=== Exposing your API using 3Scale
 
-##== Importing API from Openshift
+==== Importing API from Openshift
 
 First, let's import our API from Openshift. To do that, just click on `NEW API`.
 
@@ -380,7 +256,7 @@ Now you should see your new api on the 3scale dashboard.
 
 image::images/40.png[]
 
-##== Creating an application plan for our API
+==== Creating an application plan for our API
 
 We need to create an application plan for our users api. Click on `Dashboard` menu and then on `i-users-api`
 
@@ -398,4 +274,4 @@ We need to publish our application plan. To do that, click on `Publish`
 
 image::images/44.png[]
 
-##== Creating an application for our API
+==== Creating an application for our API
