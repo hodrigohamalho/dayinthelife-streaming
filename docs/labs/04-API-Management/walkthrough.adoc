@@ -235,8 +235,7 @@ that the API Specification is available on the `/openapi.json` endpoint.
 [type=verification]
 Could you see the list of users returned by the /users endpoint?
 
-
-=== Exposing your API using 3Scale
+== Exposing the Users API through Red Hat 3Scale API Management
 
 ==== Importing API from Openshift
 
