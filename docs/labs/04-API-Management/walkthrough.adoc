@@ -47,15 +47,17 @@ Use the following credentials to login into the web consoles:
 
 :sectnums:
 
+[time=15]
 == Creating the Users API using the Low code Integration Solution Fuse Online
 
 In order to create the Users API, first we need to manage to connect with the Users database.
 
 === Creating the connection with the Users Database
 
-Open link:{fuse-user-url}[Fuse Online Console, window="_blank"]
+Open link:{fuse-user-url}[Fuse Online Console, window="_blank"] and log in with the credentials `{user-username}` {user-password}` and accept the permission grant.
 
 image::images/01.png[]
+image::images/01-2.png[]
 
 Click on `Connections`
 
