@@ -93,6 +93,7 @@ image::images/04.png[Fuse Online Database Connection, role="integr8ly-img-respon
 * `Password`: `redhat`
 
 +
++
 image::images/05.png[]
 
 . Now, click on `Validate` to make sure everything is working as expected. If it is all good, click on `Next`.
@@ -129,7 +130,7 @@ image::images/14-1.png[]
 +
 image::images/14.png[]
 
-. Fill the *Name* field with the value `user` and paste the following JSON and choose `REST Resource`. Then, click `Save`.
+. Fill the *Name* field with the value `user` and paste the following JSON and choose `REST Resource`. Then, click `Save`. ** PLEASE DO NOT COPY USING THE PLUGIN **
 +
 [source,json,subs="attributes+"]
 ----
@@ -145,10 +146,7 @@ image::images/15.png[]
 
 . Click `Save` again.
 
-Please take a look and see that all the CRUD REST operations (GET, POST, PUT, AND DELETE ) are already created for you with the attributes well defined and the data types inferred from the json model that we provided a model.
-
-But, We will implement *just two of them*. The *GET method retrieves all the users and the *POST to create a new user*.
-So, please remove the other methods.
+. Please take a look and see that all the CRUD REST operations (GET, POST, PUT, AND DELETE ) are already created for you with the attributes well defined and the data types inferred from the json model that we provided a model. We will implement *just two of them*. The *GET method retrieves all the users and the *POST to create a new user*. So, please remove the other methods.
 
 . Select /users/{userid} and do a `Right Click` and select `Delete` option. 
 +
@@ -158,7 +156,7 @@ image::images/16-1.png[]
 +
 image::images/16.png[]
 
-Click on `Next`
+. Click on `Next`
 +
 image::images/17.png[]
 
@@ -180,7 +178,6 @@ image::images/20.png[]
 
 . Choose the `Users Database` connection created previously.
 +
---
 image::images/21.png[]
 
 . Click on `Invoke SQL to obtain, store, update or delete data`:
@@ -193,7 +190,6 @@ image::images/23.png[]
 
 . Let's add a log step for debug purposes in our flow. Click again on the `+`:
 +
---
 image::images/24.png[]
 
 . Then choose `Log`
@@ -213,7 +209,6 @@ image::images/27.png[]
 
 . Expand both panel clicking on the arrows, drag and drop the source fields matching with the target fields and then click on `Done`.
 +
---
 image::images/29.png[]
 
 . Click now on `Save`. Please pay attention not to publish! Otherwise, you will have to wait for the publishing process to finish.
