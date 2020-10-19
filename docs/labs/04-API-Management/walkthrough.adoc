@@ -257,13 +257,13 @@ You can check if your integration is working properly running clicking on `View`
 . With the URL in hand, try to do a GET on the /users endpoint. If you ysed exactly the same name suggested previously, the url will be:
 +
 
-link:https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users[https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users, window="_blank", , id="get-user-api"]
+link:https://i-users-api-fuse-{user-username}.{openshift-app-host}/users[https://i-users-api-fuse-{user-username}.{openshift-app-host}/users, window="_blank", , id="get-user-api"]
 
 . To test the add user method (POST), try the following command in your terminal or the HTTP client of your preference:
 +
 [source,bash,subs="attributes+"]
 ----
-  curl -X POST -H "Content-Type: application/json" https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users -d '{"name": "myname", "age": 20, "phone": "61 3323-2314"}'
+  curl -X POST -H "Content-Type: application/json" https://i-users-api-fuse-{user-username}.{openshift-app-host}/users -d '{"name": "myname", "age": 20, "phone": "61 3323-2314"}'
 ---- 
 
 . Also, take a look into the logs into the new deployed application, it's a Apache Camel microservice. All the work that we have done so far through this righ GUI it's generating Camel routes, if you look in details you can see by the logs that the API Specification is available on the `/openapi.json` endpoint.
@@ -273,6 +273,8 @@ Could you see the list of users returned by the `/users` endpoint?
 
 == Exposing the Users API through Red Hat 3Scale API Management
 
+=== Creating API through 3Scale Wizard
+
 First, to get familiarized with 3Scale, let's open the link:{3scale-user-url}/p/admin/onboarding/wizard[Welcome Wizard, window="_blank", , id="welcome-wizard"]Welcome Wizard that is part of 3Scale admin onboarding for users' first access.
 
 . We are going to Create a *Backend* > a *Product* > and *Define some Method* and test it. 
@@ -281,11 +283,11 @@ First, to get familiarized with 3Scale, let's open the link:{3scale-user-url}/p/
 
 . 3Scale Wizard Welcome
 +
-image::images/wizard-01.png[]
+image::images/apionboarding/wizard-01.png[]
 
 . 3Scale Wizard How does 3Scale Work
 +
-image::images/wizard-02.png[]
+image::images/apionboarding/wizard-02.png[]
 
 . 3Scale Wizard Define a Backend
 +
@@ -293,50 +295,180 @@ image::images/wizard-03.png[]
 
 . 3Scale Wizard Define a Product
 +
-image::images/wizard-04.png[]
+image::images/apionboarding/wizard-04.png[]
 
 . 3Scale Wizard Test Request
 +
-image::images/wizard-05.png[]
+image::images/apionboarding/apionboarding/wizard-05.png[]
 
 . 3Scale Wizard Overview Request Flow
 +
-image::images/wizard-06.png[]
+image::images/apionboarding/wizard-06.png[]
 
 . 3Scale Wizard What's next
 +
-image::images/wizard-07.png[]
+image::images/apionboarding/wizard-07.png[]
 
 . Try to spend some time exploring the product, navigating into the menus, trying to discover by yourself the features before we go ahead.
 
+. As it is a GET Operation we can easily test inserting the URL into the Internet Browser
++
+image::images/apionboarding/wizard-08.png[]
+
+. Look what happen if we remove the `Key` parameter from the URL.
++
+image::images/apionboarding/wizard-09.png[]
+
+. Navigate to `API Product` and look that we can promote our URL to *Staging* that represents a *Draft* version of our API. And as soon as we are sure that this is the behavior expected we can promote to *Production*.
++
+image::images/apionboarding/wizard-10.png[]
+
+. Promote to *Production*
++
+image::images/apionboarding/wizard-11.png[]
+
 === Creating the User API
 
-. Click on `NEW API`.
-+
-image::images/38.png[]
+==== Create the API Backends
 
-. Select `Import from Openshift`. Then choose `fuse` for the `Namespace` combobox and `i-users-api` for the `Name` field. Click on `Create Service`.
-+
-image::images/39.png[]
+API Backends is a fundamental part of 3Scale API Management, when we have a bunch of API Backends it allows to manage it easily.
 
-. Now you should see your new api on the 3scale dashboard.
+. Select `Backends` on the Tabs.
 +
-image::images/40.png[]
+image::images/create-user-api/create-backends-01.png[]
 
-==== Creating an application plan for our API
-
-. We need to create an application plan for our users api. Click on `Dashboard` menu and then on `i-users-api`
+. Click on `NEW BACKEND`
 +
-image::images/41.png[]
+image::images/create-user-api/create-backends-02.png[]
 
-. Click on `Create Application Plan`.
-+
-image::images/42.png[]
+. Fill the `Users API` backend creation form and click on `Create Backend`
 
-. For the `Name` field use: `Basic Plan`. And for the `System name`: `basic-plan`. Now click on `Create Application Plan`.
-+
-image::images/43.png[]
+* `Name`: `Users API`
+* `System Name`: `users-api`
+* `Description`: `Users API`
+* `Private Base URL`: `https://i-users-api-fuse-{user-username}.{openshift-app-host}`
 
-. We need to publish our application plan. To do that, click on `Publish`
 +
-image::images/44.png[]
+image::images/create-user-api/create-backends-03.png[]
+
+. Check `User API` Backend Information and select `Methods`
++
+image::images/create-user-api/create-backends-04.png[]
+
+. As we have two methods on the API we will define two methods. Methods helps to define specific rules for rate limit, monetization, enable and disable a specific endpoints and to have a more granular analytics metrics.
++
+image::images/create-user-api/create-backends-05.png[]
+
+. Create the `Get Users` method providing the following attributes and then click on `Create Method`.
+
+* `Friendly Name`: `Get Users`
+* `System Name`: `get-users`
+* `Description`: `Get all users`
+
++
+image::images/create-user-api/create-backends-06.png[]
+
+. Create the `Create Users` method providing the following attributes and then click on `Create Method`.
+
+* `Friendly Name`: `Create Users`
+* `System Name`: `create-users`
+* `Description`: `Create an user`
+
++
+image::images/create-user-api/create-backends-07.png[]
+
+. Now your `Methods & Metrics` page should be like that
++
+image::images/create-user-api/create-backends-08.png[]
+
+. Let's create the `mapping rule`, `mapping rule` is the http path that will be requested to access the endpoint.
+
+. Create the `Get users` Mapping rule
+
+* `Verb`: `GET`
+* `Pattern`: `/users`
+* `Metric or Method to increment`: `Get Users` (The method that we created previously)
+
++
+image::images/create-user-api/create-backends-09.png[]
+
+. Create the `Create users` Mapping rule
+
+* `Verb`: `POST`
+* `Pattern`: `/users`
+* `Metric or Method to increment`: `Create user` (The method that we created previously)
+
++
+image::images/create-user-api/create-backends-11.png[]
+
+. The mapping rules overview should be like that
++
+image::images/create-user-api/create-backends-12.png[]
+
+. The `Users API` Backend Overview should look like that
++
+image::images/create-user-api/create-backends-14.png[]
+
+. Now, let's repeat the Backend creation process but for the `Orders API`, Click on `Create Backend`
+
+* `Name`: `Orders API`
+* `System Name`: `orders-api`
+* `Description`: `Orders API`
+* `Private Base URL`: `https://order-rest-fuse-{user-username}.{openshift-app-host}`
+
++
+image::images/create-user-api/create-backends-15.png[]
+
+. Create two GET methods, `Get orders` and `Get all user orders`
++
+image::images/create-user-api/create-backends-17.png[]
++
+image::images/create-user-api/create-backends-19.png[]
+
+. Your methods should looks like that
++
+image::images/create-user-api/create-backends-20.png[]
+
+. Create the respective `mapping rules`
++
+image::images/create-user-api/create-backends-22.png[]
++
+image::images/create-user-api/create-backends-23.png[]
+
+. Your mapping rules should looks like that
++
+image::images/create-user-api/create-backends-24.png[]
+
+. And finnaly our backends should be like that at this moment
++
+image::images/create-user-api/create-backends-25.png[]
+
+Now that we have the Backends we can work to create a `Product` representing multiples backends 
+and finally expose this API on 3Scale API Management.
+
+=== Creating the Users API Product
+
+image::images/create-user-api/create-product-01.png[]
+image::images/create-user-api/create-product-02.png[]
+image::images/create-user-api/create-product-03.png[]
+image::images/create-user-api/create-product-04.png[]
+image::images/create-user-api/create-product-05.png[]
+image::images/create-user-api/create-product-06.png[]
+image::images/create-user-api/create-product-07.png[]
+image::images/create-user-api/create-product-07-1.png[]
+image::images/create-user-api/create-product-08.png[]
+image::images/create-user-api/create-product-09.png[]
+image::images/create-user-api/create-product-10.png[]
+image::images/create-user-api/create-product-11.png[]
+image::images/create-user-api/create-product-12.png[]
+image::images/create-user-api/create-product-13.png[]
+image::images/create-user-api/create-product-14.png[]
+image::images/create-user-api/create-product-15.png[]
+image::images/create-user-api/create-product-16.png[]
+image::images/create-user-api/create-product-17.png[]
+image::images/create-user-api/create-product-18.png[]
+image::images/create-user-api/create-product-19.png[]
+image::images/create-user-api/create-product-20.png[]
+image::images/create-user-api/create-product-21.png[]
+image::images/create-user-api/create-product-22.png[]
+image::images/create-user-api/create-product-23.png[]
