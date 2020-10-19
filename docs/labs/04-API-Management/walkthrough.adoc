@@ -27,11 +27,13 @@ Therefore, you will set it up on the API Management platform to have control and
 
 image::images/00-lab-overview-01.png[Overview, role="integr8ly-img-responsive"]
 
+API Products and Backends
+
 image::images/00-lab-overview-02.png[Overview, role="integr8ly-img-responsive"]
 
-image::images/00-lab-overview-03.png[Overview, role="integr8ly-img-responsive"]
+API consume flow through available Application Plans
 
-Red Hat Integration includes an integration Platform-as-a-Service (iPaaS) solution that makes it easy for business users to collaborate with integration experts and application developers. It is a full toolchain and runtime, available right from your browser. You will use this tool to design and implement a new API service and to connect with the Event bus provided by AMQ Online.
+image::images/00-lab-overview-03.png[Overview, role="integr8ly-img-responsive"]
 
 *Credentials*
 
@@ -67,7 +69,7 @@ In order to create the Users API, first we need to manage to connect with the Us
 
 === Creating the connection with the Users Database
 
-Open link:{fuse-user-url}[Fuse Online Console, window="_blank"] and log in with the credentials `{user-username}` {user-password}` and accept the permission grant.
+Open link:{fuse-user-url}[Fuse Online Console, window="_blank"] and log in with the credentials `{user-username}` `{user-password}` and accept the permission grant.
 
 image::images/01.png[]
 image::images/01-2.png[]
@@ -86,12 +88,9 @@ image::images/04.png[]
 
 Fill the database configuration with the following values:
 
-[source,properties,subs="attributes+"]
-----
-url: jdbc:postgresql://postgresql.fuse-demo:5432/sampledb
-user: redhat
-password: redhat
-----
+. `Connection URL`: `jdbc:postgresql://postgresql.fuse-{user-username}:5432/sampledb`
+. `Username`: `redhat`
+. `Password`: `redhat`
 
 image::images/05.png[]
 
