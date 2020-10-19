@@ -69,68 +69,80 @@ In order to create the Users API, first we need to manage to connect with the Us
 
 === Creating the connection with the Users Database
 
-Open link:{fuse-user-url}[Fuse Online Console, window="_blank"] and log in with the credentials `{user-username}` `{user-password}` and accept the permission grant.
+. Open link:{fuse-user-url}[Fuse Online Console, window="_blank"] and log in with the credentials `{user-username}` `{user-password}` and accept the permission grant.
++
+--
+image::images/01.png[Fuse Online Access, role="integr8ly-img-responsive"]
+image::images/01-2.png[Fuse Online Access, role="integr8ly-img-responsive"]
 
-image::images/01.png[]
-image::images/01-2.png[]
+. Now that you are on the iPaaS solution Red Hat Fuse, Click on `Connections`
++
+--
+image::images/02.png[Fuse Online Connections, role="integr8ly-img-responsive"]
 
-Now that you are on the iPaaS solution Red Hat Fuse, Click on `Connections`
+. Click on `Create Connection`
++
+--
+image::images/03.png[Fuse Online Database Connection, role="integr8ly-img-responsive"]
 
-image::images/02.png[]
+. Filter for `database` and select the `Database` connection
++
+--
+image::images/04.png[Fuse Online Database Connection, role="integr8ly-img-responsive"]
 
-Click on `Create Connection`
-
-image::images/03.png[]
-
-Then, filter for `database` and select the `Database` connection
-
-image::images/04.png[]
-
-Fill the database configuration with the following values:
+. Fill the database configuration with the following values:
 
 * `Connection URL`: `jdbc:postgresql://postgresql.fuse-{user-username}:5432/sampledb`
 * `Username`: `redhat`
 * `Password`: `redhat`
 
++
+--
 image::images/05.png[]
 
-Now, click on `Validate` to make sure everything is working as expected. If it is all good, click on `Next`.
+. Now, click on `Validate` to make sure everything is working as expected. If it is all good, click on `Next`.
 
-Fill `Users Database` for the *Connection Name*. Then, click on `Create`
-
+. Fill `Users Database` for the *Connection Name*. Then, click on `Create`
++
+--
 image::images/06.png[]
 
-Now you should see connection `Users Database` listed in the connections page.
-
+. Now you should see connection `Users Database` listed in the connections page.
++
+--
 image::images/10.png[]
 
 === Design and Create the Users API from Scratch
 
 Now the we have the Users database already configured as a valid connection, we will create the connection to interact with this database and export it as a REST API.
 
-On the side menu `Integrations`, select `Create Integration`
-
+. On the side menu `Integrations`, select `Create Integration`
++
+--
 image::images/11.png[]
 
-Then select `API Provider` from the connections listed.
-
+. Select `API Provider` from the connections listed.
++
+--
 image::images/12.png[]
 
-Choose `Create from scratch`
-
+. Choose `Create from scratch`
++
+--
 image::images/13.png[]
 
-Give it a name:
-
+. Give it a name:
++
+--
 image::images/14-1.png[]
 
-Click on `Add a data type`
-
+. Click on `Add a data type`
++
+--
 image::images/14.png[]
 
-Fill the *Name* field with the value `user` and 
-Paste the following Json and choose `REST Resource`. Then, click `Save`.
-
+. Fill the *Name* field with the value `user` and paste the following JSON and choose `REST Resource`. Then, click `Save`.
++
 [source,json,subs="attributes+"]
 ----
 {
@@ -140,21 +152,29 @@ Paste the following Json and choose `REST Resource`. Then, click `Save`.
     "age": 30
 }
 ----
++
 image::images/15.png[]
 
-Click `Save` again.
+. Click `Save` again.
 
 Please take a look and see that all the CRUD REST operations (GET, POST, PUT, AND DELETE ) are already created for you with the attributes well defined and the data types inferred from the json model that we provided a model.
 
 But, We will implement *just two of them*. The *GET method retrieves all the users and the *POST to create a new user*.
 So, please remove the other methods.
 
-Select /users/{userid} and do a `Right Click` and select `Delete` option. 
+. Select /users/{userid} and do a `Right Click` and select `Delete` option. 
++
+--
+image::images/16-1.png[]
 
+. Your API Specification must look like that
++
+--
 image::images/16.png[]
 
-Now, click on `Next`
-
+Click on `Next`
++
+--
 image::images/17.png[]
 
 === Creating an API for `Get All Users` (GET)
@@ -165,103 +185,120 @@ as a *Flow*.
 
 We will implement *just two of them*. The *GET method retrieves all the users and the *POST to create a new user*.
 
-Create now a flow for the GET Method that list all users:
-
+. Create a flow for the GET Method that list all users:
++
+--
 image::images/19.png[]
 
-Add a step in the flow clicking on `+`:
-
+. Add a step in the flow clicking on `+`:
++
+--
 image::images/20.png[]
 
-Now choose the `Users Database` connection created previously.
-
+. Choose the `Users Database` connection created previously.
++
+--
 image::images/21.png[]
 
-Click on `Invoke SQL to obtain, store, update or delete data`:
-
+. Click on `Invoke SQL to obtain, store, update or delete data`:
++
+--
 image::images/22.png[]
 
-Fill the `SQL Statement` with: `select * from users` and then click `Next`
-
+. Fill the `SQL Statement` with: `select * from users` and then click `Next`
++
+--
 image::images/23.png[]
 
-Let's add a log step for debug purposes in our flow. Click again on the `+`:
-
+. Let's add a log step for debug purposes in our flow. Click again on the `+`:
++
+--
 image::images/24.png[]
 
-Then choose `Log`
-
+. Then choose `Log`
++
+--
 image::images/25.png[]
 
-In the `Custom Text`, write `Loading users from database ${body}` and click `Done`.
-
+. In the `Custom Text`, write `Loading users from database ${body}` and click `Done`.
++
+--
 image::images/26.png[]
 
 Can you see a warning showing that we have a mapping conflict? 
-In order to solve it, let's add a data mapping to our flow. In the last step, click in the yellow icon and then go to `Add a data mapping step`.
+In order to solve it, let's add a data mapping to our flow. 
 
+. In the last step, click in the yellow icon and then go to `Add a data mapping step`.
++
+--
 image::images/27.png[]
 
-Expand both panel clicking on the arrows, drag and drop the source fields matching with the target fields and then click on `Done`.
-
+. Expand both panel clicking on the arrows, drag and drop the source fields matching with the target fields and then click on `Done`.
++
+--
 image::images/29.png[]
 
-Click now on `Save`.
-Please pay attention not to publish! Otherwise, you will have to wait for the publishing process to finish.
-
+. Click now on `Save`. Please pay attention not to publish! Otherwise, you will have to wait for the publishing process to finish.
++
+--
 image::images/30.png[]
-
++
 image::images/30-1.png[]
 
 === Creating API for `Create a users` (POST)
 
-From the combobox `Operations`, choose `Create a users`:
-
+. From the combobox `Operations`, choose `Create a users`:
++
+--
 image::images/31.png[]
 
-Repeat the same steps you did on the previous step: `Creating an API for Get All Users (GET)`
+. Repeat the same steps you did on the previous step: `Creating an API for Get All Users (GET)`
 
-When adding the Users Database, you need to click on `Invoke SQL to obtain, store, update or delete data` and add `INSERT INTO USERS(NAME,PHONE,AGE) VALUES(:#NAME,:#PHONE,:#AGE);` in the field `SQL statement`.
-
+. When adding the Users Database, you need to click on `Invoke SQL to obtain, store, update or delete data` and add `INSERT INTO USERS(NAME,PHONE,AGE) VALUES(:#NAME,:#PHONE,:#AGE);` in the field `SQL statement`.
++
+--
 image::images/32.png[]
 
-Also, during the data mapping you won't need to associate the `id` field because it will be already generate by the postgres database.
-
+. Also, during the data mapping you won't need to associate the `id` field because it will be already generate by the postgres database.
++
+--
 image::images/33.png[]
 
-In the end, you should have something like:
-
+. In the end, you should have something like:
++
+--
 image::images/34.png[]
 
-Now, click on `Publish`
-
+. Click on `Publish`
++
+--
 image::images/35.png[]
 
-Save and Publish!
-
+. Save and Publish!
++
+--
 image::images/35-1.png[]
 
-Now, we need to wait Openshift build and deploy our container. When done, you should see `Published version 1` on the top of the page.
+We need to wait Openshift build and deploy our container. When done, you should see `Published version 1` on the top of the page.
 
-Go to the `Home` page, and look that is one integration running.
-
+. Go to the `Home` page, and look that is one integration running.
++
+--
 image::images/37.png[]
 
 === Testing your integration
 
 You can check if your integration is working properly running clicking on `View` Integration and Copy and the External URL.
 
-With the URL in hand, try to do a GET on the /users endpoint.
-
-If you put exactly the same name suggested here, the url will be:
-
+. With the URL in hand, try to do a GET on the /users endpoint. If you ysed exactly the same name suggested previously, the url will be:
++
 [source,bash,subs="attributes+"]
 ----
   https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users
 ----
 
-To test the add user method (POST), try the following command in your terminal or the HTTP client of your preference:
-
+. To test the add user method (POST), try the following command in your terminal or the HTTP client of your preference:
++
 [source,bash,subs="attributes+"]
 ----
   curl -X POST -H "Content-Type: application/json" https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users -d '{"name": "myname", "age": 20, "phone": "61 3323-2314"}'
@@ -278,10 +315,11 @@ Could you see the list of users returned by the /users endpoint?
 
 First, to get familiarized with 3Scale, let's open the Welcome Wizard that is part of 3Scale admin onboarding for users' first access.
 
-We are going to Create a *Backend* > a *Product* > and *Define some Method* and test it. 
+. We are going to Create a *Backend* > a *Product* > and *Define some Method* and test it. 
 
 This is the most basic flow. That is a lot of things being created automatically for you behind the scenes. We are going to explore it in detail in the next sessions.
-
++
+--
 image::images/wizard-01.png[]
 image::images/wizard-02.png[]
 image::images/wizard-03.png[]
