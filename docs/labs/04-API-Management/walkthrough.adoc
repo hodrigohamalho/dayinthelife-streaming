@@ -283,49 +283,49 @@ First, to get familiarized with 3Scale, let's open the link:{3scale-user-url}/p/
 
 . 3Scale Wizard Welcome
 +
-image::images/apionboarding/wizard-01.png[]
+image::images/api-onboarding/wizard-01.png[]
 
 . 3Scale Wizard How does 3Scale Work
 +
-image::images/apionboarding/wizard-02.png[]
+image::images/api-onboarding/wizard-02.png[]
 
 . 3Scale Wizard Define a Backend
 +
-image::images/wizard-03.png[]
+image::images/api-onboarding/wizard-03.png[]
 
 . 3Scale Wizard Define a Product
 +
-image::images/apionboarding/wizard-04.png[]
+image::images/api-onboarding/wizard-04.png[]
 
 . 3Scale Wizard Test Request
 +
-image::images/apionboarding/apionboarding/wizard-05.png[]
+image::images/api-onboarding/apionboarding/wizard-05.png[]
 
 . 3Scale Wizard Overview Request Flow
 +
-image::images/apionboarding/wizard-06.png[]
+image::images/api-onboarding/wizard-06.png[]
 
 . 3Scale Wizard What's next
 +
-image::images/apionboarding/wizard-07.png[]
+image::images/api-onboarding/wizard-07.png[]
 
 . Try to spend some time exploring the product, navigating into the menus, trying to discover by yourself the features before we go ahead.
 
 . As it is a GET Operation we can easily test inserting the URL into the Internet Browser
 +
-image::images/apionboarding/wizard-08.png[]
+image::images/api-onboarding/wizard-08.png[]
 
 . Look what happen if we remove the `Key` parameter from the URL.
 +
-image::images/apionboarding/wizard-09.png[]
+image::images/api-onboarding/wizard-09.png[]
 
 . Navigate to `API Product` and look that we can promote our URL to *Staging* that represents a *Draft* version of our API. And as soon as we are sure that this is the behavior expected we can promote to *Production*.
 +
-image::images/apionboarding/wizard-10.png[]
+image::images/api-onboarding/wizard-10.png[]
 
 . Promote to *Production*
 +
-image::images/apionboarding/wizard-11.png[]
+image::images/api-onboarding/wizard-11.png[]
 
 === Creating the User API
 
