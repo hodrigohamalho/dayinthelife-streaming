@@ -257,10 +257,8 @@ You can check if your integration is working properly running clicking on `View`
 
 . With the URL in hand, try to do a GET on the /users endpoint. If you ysed exactly the same name suggested previously, the url will be:
 +
-[source,bash,subs="attributes+"]
-----
-  https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users
-----
+
+link:https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users[https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users, window="_blank", , id="get-user-api"]
 
 . To test the add user method (POST), try the following command in your terminal or the HTTP client of your preference:
 +
@@ -269,12 +267,10 @@ You can check if your integration is working properly running clicking on `View`
   curl -X POST -H "Content-Type: application/json" https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users -d '{"name": "myname", "age": 20, "phone": "61 3323-2314"}'
 ---- 
 
-Also, take a look into the logs into the new deployed application, it's a Apache Camel microservice. 
-All the work that we have done so far through this righ GUI it's generating Camel routes, if you look in details you can see by the logs 
-that the API Specification is available on the `/openapi.json` endpoint.
+. Also, take a look into the logs into the new deployed application, it's a Apache Camel microservice. All the work that we have done so far through this righ GUI it's generating Camel routes, if you look in details you can see by the logs that the API Specification is available on the `/openapi.json` endpoint.
 
 [type=verification]
-Could you see the list of users returned by the /users endpoint?
+Could you see the list of users returned by the `/users` endpoint?
 
 == Exposing the Users API through Red Hat 3Scale API Management
 
@@ -282,7 +278,7 @@ First, to get familiarized with 3Scale, let's open the Welcome Wizard that is pa
 
 . We are going to Create a *Backend* > a *Product* > and *Define some Method* and test it. 
 
-This is the most basic flow. That is a lot of things being created automatically for you behind the scenes. We are going to explore it in detail in the next sessions.
+. This is the most basic flow. That is a lot of things being created automatically for you behind the scenes. We are going to explore it in detail in the next sessions.
 +
 image::images/wizard-01.png[]
 image::images/wizard-02.png[]
@@ -292,38 +288,36 @@ image::images/wizard-05.png[]
 image::images/wizard-06.png[]
 image::images/wizard-07.png[]
 
-Ok, try to spend some time exploring the product, navigating into the menus, trying to discover by yourself the features before we go ahead.
+. Try to spend some time exploring the product, navigating into the menus, trying to discover by yourself the features before we go ahead.
 
-==== Creating the User API
+=== Creating the User API
 
-Click on `NEW API`.
-
+. Click on `NEW API`.
++
 image::images/38.png[]
 
-Select `Import from Openshift`. Then choose `fuse` for the `Namespace` combobox and `i-users-api` for the `Name` field. Click on `Create Service`.
-
+. Select `Import from Openshift`. Then choose `fuse` for the `Namespace` combobox and `i-users-api` for the `Name` field. Click on `Create Service`.
++
 image::images/39.png[]
 
-Now you should see your new api on the 3scale dashboard.
-
+. Now you should see your new api on the 3scale dashboard.
++
 image::images/40.png[]
 
 ==== Creating an application plan for our API
 
-We need to create an application plan for our users api. Click on `Dashboard` menu and then on `i-users-api`
-
+. We need to create an application plan for our users api. Click on `Dashboard` menu and then on `i-users-api`
++
 image::images/41.png[]
 
-Now, click on `Create Application Plan`.
-
+. Click on `Create Application Plan`.
++
 image::images/42.png[]
 
-For the `Name` field use: `Basic Plan`. And for the `System name`: `basic-plan`. Now click on `Create Application Plan`.
-
+. For the `Name` field use: `Basic Plan`. And for the `System name`: `basic-plan`. Now click on `Create Application Plan`.
++
 image::images/43.png[]
 
-We need to publish our application plan. To do that, click on `Publish`
-
+. We need to publish our application plan. To do that, click on `Publish`
++
 image::images/44.png[]
-
-==== Creating an application for our API
