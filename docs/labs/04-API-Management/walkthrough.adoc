@@ -148,7 +148,7 @@ image::images/15.png[]
 
 . Please take a look and see that all the CRUD REST operations (GET, POST, PUT, AND DELETE ) are already created for you with the attributes well defined and the data types inferred from the json model that we provided a model. We will implement *just two of them*. The *GET method retrieves all the users and the *POST to create a new user*. So, please remove the other methods.
 
-. Select /users/{userid} and do a `Right Click` and select `Delete` option. 
+. Select `/users/{userid}` and do a `Right Click` and select `Delete` option. 
 +
 image::images/16-1.png[]
 
@@ -200,8 +200,7 @@ image::images/25.png[]
 +
 image::images/26.png[]
 
-Can you see a warning showing that we have a mapping conflict? 
-In order to solve it, let's add a data mapping to our flow. 
+. Can you see a warning showing that we have a mapping conflict? In order to solve it, let's add a `data mapping` to our Flow. 
 
 . In the last step, click in the yellow icon and then go to `Add a data mapping step`.
 +
@@ -217,7 +216,7 @@ image::images/30.png[]
 +
 image::images/30-1.png[]
 
-=== Creating API for `Create a user` (POST)
+=== Creating API for Create a user (POST)
 
 . From the combobox `Operations`, choose `Create a users`:
 +
@@ -274,18 +273,38 @@ Could you see the list of users returned by the `/users` endpoint?
 
 == Exposing the Users API through Red Hat 3Scale API Management
 
-First, to get familiarized with 3Scale, let's open the Welcome Wizard that is part of 3Scale admin onboarding for users' first access.
+First, to get familiarized with 3Scale, let's open the link:{3scale-user-url}/p/admin/onboarding/wizard[Welcome Wizard, window="_blank", , id="welcome-wizard"]Welcome Wizard that is part of 3Scale admin onboarding for users' first access.
 
 . We are going to Create a *Backend* > a *Product* > and *Define some Method* and test it. 
 
 . This is the most basic flow. That is a lot of things being created automatically for you behind the scenes. We are going to explore it in detail in the next sessions.
+
+. 3Scale Wizard Welcome
 +
 image::images/wizard-01.png[]
+
+. 3Scale Wizard How does 3Scale Work
++
 image::images/wizard-02.png[]
+
+. 3Scale Wizard Define a Backend
++
 image::images/wizard-03.png[]
+
+. 3Scale Wizard Define a Product
++
 image::images/wizard-04.png[]
+
+. 3Scale Wizard Test Request
++
 image::images/wizard-05.png[]
+
+. 3Scale Wizard Overview Request Flow
++
 image::images/wizard-06.png[]
+
+. 3Scale Wizard What's next
++
 image::images/wizard-07.png[]
 
 . Try to spend some time exploring the product, navigating into the menus, trying to discover by yourself the features before we go ahead.
