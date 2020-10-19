@@ -88,9 +88,9 @@ image::images/04.png[]
 
 Fill the database configuration with the following values:
 
-. `Connection URL`: `jdbc:postgresql://postgresql.fuse-{user-username}:5432/sampledb`
-. `Username`: `redhat`
-. `Password`: `redhat`
+* `Connection URL`: `jdbc:postgresql://postgresql.fuse-{user-username}:5432/sampledb`
+* `Username`: `redhat`
+* `Password`: `redhat`
 
 image::images/05.png[]
 
@@ -128,7 +128,7 @@ Click on `Add a data type`
 
 image::images/14.png[]
 
-Fill the *Name* field with the value `User` and 
+Fill the *Name* field with the value `user` and 
 Paste the following Json and choose `REST Resource`. Then, click `Save`.
 
 [source,json,subs="attributes+"]
@@ -136,12 +136,20 @@ Paste the following Json and choose `REST Resource`. Then, click `Save`.
 {
     "id": 0,
     "name": "Rodrigo Ramalho",
-    "phone": "11 95474-8099",
+    "phone": "11 99555-2211",
     "age": 30
 }
 ----
+image::images/15.png[]
 
 Click `Save` again.
+
+Please take a look and see that all the CRUD REST operations (GET, POST, PUT, AND DELETE ) are already created for you with the attributes well defined and the data types inferred from the json model that we provided a model.
+
+But, We will implement *just two of them*. The *GET method retrieves all the users and the *POST to create a new user*.
+So, please remove the other methods.
+
+Select /users/{userid} and do a `Right Click` and select `Delete` option. 
 
 image::images/16.png[]
 
@@ -151,21 +159,21 @@ image::images/17.png[]
 
 === Creating an API for `Get All Users` (GET)
 
-On the previous step, we managed to create all the API Specification using a NiceUI based on the open source project *Apicurio*. 
-Now that we defined which are the contract of our API, let's start the development of each method, that in Fuse Online we call it 
+In the previous step, we managed to create all the API Specification using a friendly UI based on the open-source project *Apicurio*. 
+Now that we defined which are the contract of our API, let's start the development of each method, that in Fuse Online, we call it 
 as a *Flow*. 
 
-We are going to implement *just two of them*, the *GET method to retrieve all the users and the *POST to create a new user*.
+We will implement *just two of them*. The *GET method retrieves all the users and the *POST to create a new user*.
 
 Create now a flow for the GET Method that list all users:
 
 image::images/19.png[]
 
-Add a step in our flow clicking on `+`:
+Add a step in the flow clicking on `+`:
 
 image::images/20.png[]
 
-Now choose our `Users Database` connection created previously.
+Now choose the `Users Database` connection created previously.
 
 image::images/21.png[]
 
@@ -185,7 +193,7 @@ Then choose `Log`
 
 image::images/25.png[]
 
-In the `Custom Text`, write `Loading users from database` and click `Done`.
+In the `Custom Text`, write `Loading users from database ${body}` and click `Done`.
 
 image::images/26.png[]
 
@@ -199,6 +207,7 @@ Expand both panel clicking on the arrows, drag and drop the source fields matchi
 image::images/29.png[]
 
 Click now on `Save`.
+Please pay attention not to publish! Otherwise, you will have to wait for the publishing process to finish.
 
 image::images/30.png[]
 
@@ -224,13 +233,17 @@ In the end, you should have something like:
 
 image::images/34.png[]
 
-Now, click on `Save` and then on `Publish`
+Now, click on `Publish`
 
 image::images/35.png[]
 
-Now, we need to wait Openshift build our container. When done, you should see `Published version 1` on the top of the page.
+Save and Publish!
 
-If you go to the `Home` page, we have 1 integration running.
+image::images/35-1.png[]
+
+Now, we need to wait Openshift build and deploy our container. When done, you should see `Published version 1` on the top of the page.
+
+Go to the `Home` page, and look that is one integration running.
 
 image::images/37.png[]
 
@@ -239,6 +252,20 @@ image::images/37.png[]
 You can check if your integration is working properly running clicking on `View` Integration and Copy and the External URL.
 
 With the URL in hand, try to do a GET on the /users endpoint.
+
+If you put exactly the same name suggested here, the url will be:
+
+[source,bash,subs="attributes+"]
+----
+  https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users
+----
+
+To test the add user method (POST), try the following command in your terminal or the HTTP client of your preference:
+
+[source,bash,subs="attributes+"]
+----
+  curl -X POST -H "Content-Type: application/json" https://i-users-api-fuse-{user-username}.apps.cluster-latam-7c64.latam-7c64.sandbox274.opentlc.com/users -d '{"name": "myname", "age": 20, "phone": "61 3323-2314"}'
+---- 
 
 Also, take a look into the logs into the new deployed application, it's a Apache Camel microservice. 
 All the work that we have done so far through this righ GUI it's generating Camel routes, if you look in details you can see by the logs 
