@@ -7,6 +7,8 @@
 
 // URLs
 :fuse-user-url: https://syndesis-fuse-{user-username}.{openshift-app-host}/
+:3scale-user-url: https://{user-username}-admin.{openshift-app-host}/
+:3scale-user-devportal: https://{user-username}.{openshift-app-host}/
 
 [id='api-management']
 = {title}
@@ -38,6 +40,11 @@ Use the following credentials to login into the web consoles:
 .Fuse Online
 ****
 * link:{fuse-user-url}[Fuse Online Console, window="_blank", , id="resources-fuse-user-url"]
+****
+[type=walkthroughResource]
+.3Scale API Management
+****
+* link:{3scale-user-url}[3Scale API Management, window="_blank", , id="resources-3scale-user-url"]
 ****
 [type=walkthroughResource]
 .Red Hat OpenShift Developer Console
@@ -237,9 +244,25 @@ Could you see the list of users returned by the /users endpoint?
 
 == Exposing the Users API through Red Hat 3Scale API Management
 
-==== Importing API from Openshift
+First, to get familiarized with 3Scale, let's open the Welcome Wizard that is part of 3Scale admin onboarding for users' first access.
 
-First, let's import our API from Openshift. To do that, just click on `NEW API`.
+We are going to Create a *Backend* > a *Product* > and *Define some Method* and test it. 
+
+This is the most basic flow. That is a lot of things being created automatically for you behind the scenes. We are going to explore it in detail in the next sessions.
+
+image::images/wizard-01.png[]
+image::images/wizard-02.png[]
+image::images/wizard-03.png[]
+image::images/wizard-04.png[]
+image::images/wizard-05.png[]
+image::images/wizard-06.png[]
+image::images/wizard-07.png[]
+
+Ok, try to spend some time exploring the product, navigating into the menus, trying to discover by yourself the features before we go ahead.
+
+==== Creating the User API
+
+Click on `NEW API`.
 
 image::images/38.png[]
 
