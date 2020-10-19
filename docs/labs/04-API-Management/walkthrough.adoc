@@ -13,9 +13,13 @@
 [id='api-management']
 = {title}
 
-As part of the acquisition, your team at International Inc's is now working with Fleur de Lune's IT department to learn more about Event-Driven Architecture or EDA. By applying event-driven concepts you will help to avoid classic problems derived from coupled synchronous service calls and avoid the need to implement additional infrastructure components. 
+As part of the acquisition, your team at International Inc's is now working with Fleur de Lune's IT department to learn more about low code integration development and API Management. You are assigned on a mission to offer total 
+control of the APIs as security, rate limit, and monetization through a centralized management interface for the APIs existent
+on the International Inc. 
 
-The first step was to migrate their ecommerce orders website from a legacy SpringBoot stack to the new supersonic subatomic Quarkus-based microservices. However, they have been dealing with a high rate of errors because one of the components is crashing frequently. To overcome this, you will need to create a new event bus using self-service messaging and implement new event-driven services and APIs using a highly productive iPaaS suite. You will then need to wire everything together to showcase to upper management how EDA solves some of the problems that came along pure REST APIs.
+To see how it will work on the entire environment, you must implement a first and basic service called users API. 
+So you are going to develop a microservice that retrieve users and orders information from a Postgre database and expose it as API, 
+Therefore, you will set it up on the API Management platform to have control and visibility about this API. 
 
 *Audience:* Enterprise Integrators, System Architects, Developers, API Designers, Data Integrators
 
@@ -35,6 +39,8 @@ Use the following credentials to login into the web consoles:
 
 * Your *username* is: `{user-username}`
 * Your *password* is: `{user-password}`
+
+For the 3Scale API Management you are going to use *redhat* as password.
 
 [type=walkthroughResource]
 .Fuse Online
