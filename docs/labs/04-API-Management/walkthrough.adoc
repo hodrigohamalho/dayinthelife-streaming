@@ -275,10 +275,8 @@ Could you see the list of users returned by the `/users` endpoint?
 
 link:https://orders-rest-fuse-{user-username}.{openshift-app-host}[https://orders-rest-fuse-{user-username}.{openshift-app-host}, window="_blank", , id="orders-rest-api"]
 
-+
-image::images/38.png[]
 
-+
+image::images/38.png[]
 image::images/39.png[]
 
 [time=10]
@@ -457,17 +455,69 @@ and finally expose this API on 3Scale API Management.
 [time=10]
 == Creating the Users API Product
 
+. Access the `PRODUCTS` tab and select `NEW PRODUCT`
++
 image::images/create-product/create-product-01.png[]
+
+. Select the `Define manually` option and use the following attributes
+
+* `Name`: `Users API`
+* `System name`: `users-api`
+* `Description`: `Get all information about users and relative orders`
+
++
 image::images/create-product/create-product-02.png[]
+
+. This is the overview of your API Product right now
++
 image::images/create-product/create-product-03.png[]
+
+. Let's create two plans, one sandbox for enable users to try and another production that the user needs to pay for use it without any rate limit restriction. Create the `sandbox` application plan.
+
+* `Name`: `sandbox`
+* `System Name`: `sandbox`
+
++
 image::images/create-product/create-product-04.png[]
-image::images/create-product/create-product-05.png[]
+
+. Create another plan named `production`
+
+* `Name`: `production`
+* `System Name`: `production`
+* `Trial Period (days)`: `7`
+* `Setup fee`: `1`
+* `Cost per month`: `5`
+
++
 image::images/create-product/create-product-06.png[]
+
+. Now that you have both created, please `Publish` both.
++ 
 image::images/create-product/create-product-07.png[]
+
+. Let's add the backends the we previously created
++ 
 image::images/create-product/create-product-07-1.png[]
 image::images/create-product/create-product-08.png[]
+
+. Add `Users API` Backend
+
+* `Backend Name`: `Users API`
+* `Path`: `/users-api`
+
++
 image::images/create-product/create-product-09.png[]
+
+. Add `Orders API` Backend
+
+* `Backend Name`: `Orders API`
+* `Path`: `/orders-api`
+
++
 image::images/create-product/create-product-10.png[]
+
+. Your backends properly configured should looks like this
++
 image::images/create-product/create-product-11.png[]
 
 . Delete the actual `GET /` Mapping Rule
@@ -481,10 +531,25 @@ image::images/create-product/create-product-13.png[]
 . Promote the API to `Production`
 +
 image::images/create-product/create-product-14.png[]
+
+. As you can see the USER_KEY is invalid at this moment. It's because we don't have an Application yet, in order to solve it let's create one. On the `Up menu` select `Audience`.
++
 image::images/create-product/create-product-15.png[]
+
+. Select `Developer` from the account list
++ 
 image::images/create-product/create-product-16.png[]
+
+. Select `Application` on the horizontal menu
++ 
 image::images/create-product/create-product-17.png[]
+
+. Click on `Create Application`
++
 image::images/create-product/create-product-18.png[]
+
+. Select the `Production` plan under `Users API`
+
 image::images/create-product/create-product-19.png[]
 image::images/create-product/create-product-20.png[]
 image::images/create-product/create-product-21.png[]
