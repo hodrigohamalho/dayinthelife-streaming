@@ -469,8 +469,17 @@ image::images/create-user-api/create-product-08.png[]
 image::images/create-user-api/create-product-09.png[]
 image::images/create-user-api/create-product-10.png[]
 image::images/create-user-api/create-product-11.png[]
+
+. Delete the actual `GET /` Mapping Rule
++
 image::images/create-user-api/create-product-12.png[]
+
+. Promote the API to `Staging`
++
 image::images/create-user-api/create-product-13.png[]
+
+. Promote the API to `Production`
++
 image::images/create-user-api/create-product-14.png[]
 image::images/create-user-api/create-product-15.png[]
 image::images/create-user-api/create-product-16.png[]
@@ -480,6 +489,9 @@ image::images/create-user-api/create-product-19.png[]
 image::images/create-user-api/create-product-20.png[]
 image::images/create-user-api/create-product-21.png[]
 image::images/create-user-api/create-product-22.png[]
+
+. Now that we have an application, the `USER_KEY` query parameter is filled with a valid key from the application that we just created.
++
 image::images/create-user-api/create-product-23.png[]
 image::images/create-user-api/create-product-24.png[]
 
