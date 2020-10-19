@@ -343,11 +343,11 @@ API Backends is a fundamental part of 3Scale API Management, when we have a bunc
 
 . Select `Backends` on the Tabs.
 +
-image::images/create-user-api/create-backends-01.png[]
+image::images/create-backends/create-backends-01.png[]
 
 . Click on `NEW BACKEND`
 +
-image::images/create-user-api/create-backends-02.png[]
+image::images/create-backends/create-backends-02.png[]
 
 . Fill the `Users API` backend creation form and click on `Create Backend`
 
@@ -357,15 +357,15 @@ image::images/create-user-api/create-backends-02.png[]
 * `Private Base URL`: `https://i-users-api-fuse-{user-username}.{openshift-app-host}`
 
 +
-image::images/create-user-api/create-backends-03.png[]
+image::images/create-backends/create-backends-03.png[]
 
 . Check `User API` Backend Information and select `Methods`
 +
-image::images/create-user-api/create-backends-04.png[]
+image::images/create-backends/create-backends-04.png[]
 
 . As we have two methods on the API we will define two methods. Methods helps to define specific rules for rate limit, monetization, enable and disable a specific endpoints and to have a more granular analytics metrics.
 +
-image::images/create-user-api/create-backends-05.png[]
+image::images/create-backends/create-backends-05.png[]
 
 . Create the `Get Users` method providing the following attributes and then click on `Create Method`.
 
@@ -374,7 +374,7 @@ image::images/create-user-api/create-backends-05.png[]
 * `Description`: `Get all users`
 
 +
-image::images/create-user-api/create-backends-06.png[]
+image::images/create-backends/create-backends-06.png[]
 
 . Create the `Create Users` method providing the following attributes and then click on `Create Method`.
 
@@ -383,11 +383,11 @@ image::images/create-user-api/create-backends-06.png[]
 * `Description`: `Create an user`
 
 +
-image::images/create-user-api/create-backends-07.png[]
+image::images/create-backends/create-backends-07.png[]
 
 . Now your `Methods & Metrics` page should be like that
 +
-image::images/create-user-api/create-backends-08.png[]
+image::images/create-backends/create-backends-08.png[]
 
 . Let's create the `mapping rule`. `Mapping rule` is the http path that will be requested to access the endpoint.
 
@@ -398,7 +398,7 @@ image::images/create-user-api/create-backends-08.png[]
 * `Metric or Method to increment`: `Get Users` (The method that we created previously)
 
 +
-image::images/create-user-api/create-backends-09.png[]
+image::images/create-backends/create-backends-09.png[]
 
 . Create the `Create users` Mapping rule
 
@@ -407,15 +407,15 @@ image::images/create-user-api/create-backends-09.png[]
 * `Metric or Method to increment`: `Create user` (The method that we created previously)
 
 +
-image::images/create-user-api/create-backends-11.png[]
+image::images/create-backends/create-backends-11.png[]
 
 . The mapping rules overview should be like that
 +
-image::images/create-user-api/create-backends-12.png[]
+image::images/create-backends/create-backends-12.png[]
 
 . The `Users API` Backend Overview should look like that
 +
-image::images/create-user-api/create-backends-13.png[]
+image::images/create-backends/create-backends-13.png[]
 
 . Now, let's repeat the Backend creation process but for the `Orders API`, Click on `Create Backend`
 
@@ -425,31 +425,31 @@ image::images/create-user-api/create-backends-13.png[]
 * `Private Base URL`: `https://order-rest-fuse-{user-username}.{openshift-app-host}`
 
 +
-image::images/create-user-api/create-backends-15.png[]
+image::images/create-backends/create-backends-15.png[]
 
 . Create two GET methods, `Get orders` and `Get all user orders`
 +
-image::images/create-user-api/create-backends-17.png[]
+image::images/create-backends/create-backends-17.png[]
 +
-image::images/create-user-api/create-backends-19.png[]
+image::images/create-backends/create-backends-19.png[]
 
 . Your methods should looks like that
 +
-image::images/create-user-api/create-backends-20.png[]
+image::images/create-backends/create-backends-20.png[]
 
 . Create the respective `mapping rules`
 +
-image::images/create-user-api/create-backends-22.png[]
+image::images/create-backends/create-backends-22.png[]
 +
-image::images/create-user-api/create-backends-23.png[]
+image::images/create-backends/create-backends-23.png[]
 
 . Your mapping rules should looks like that
 +
-image::images/create-user-api/create-backends-24.png[]
+image::images/create-backends/create-backends-24.png[]
 
 . And finnaly our backends should be like that at this moment
 +
-image::images/create-user-api/create-backends-25.png[]
+image::images/create-backends/create-backends-25.png[]
 
 Now that we have the Backends we can work to create a `Product` representing multiples backends 
 and finally expose this API on 3Scale API Management.
@@ -457,43 +457,43 @@ and finally expose this API on 3Scale API Management.
 [time=10]
 == Creating the Users API Product
 
-image::images/create-user-api/create-product-01.png[]
-image::images/create-user-api/create-product-02.png[]
-image::images/create-user-api/create-product-03.png[]
-image::images/create-user-api/create-product-04.png[]
-image::images/create-user-api/create-product-05.png[]
-image::images/create-user-api/create-product-06.png[]
-image::images/create-user-api/create-product-07.png[]
-image::images/create-user-api/create-product-07-1.png[]
-image::images/create-user-api/create-product-08.png[]
-image::images/create-user-api/create-product-09.png[]
-image::images/create-user-api/create-product-10.png[]
-image::images/create-user-api/create-product-11.png[]
+image::images/create-product/create-product-01.png[]
+image::images/create-product/create-product-02.png[]
+image::images/create-product/create-product-03.png[]
+image::images/create-product/create-product-04.png[]
+image::images/create-product/create-product-05.png[]
+image::images/create-product/create-product-06.png[]
+image::images/create-product/create-product-07.png[]
+image::images/create-product/create-product-07-1.png[]
+image::images/create-product/create-product-08.png[]
+image::images/create-product/create-product-09.png[]
+image::images/create-product/create-product-10.png[]
+image::images/create-product/create-product-11.png[]
 
 . Delete the actual `GET /` Mapping Rule
 +
-image::images/create-user-api/create-product-12.png[]
+image::images/create-product/create-product-12.png[]
 
 . Promote the API to `Staging`
 +
-image::images/create-user-api/create-product-13.png[]
+image::images/create-product/create-product-13.png[]
 
 . Promote the API to `Production`
 +
-image::images/create-user-api/create-product-14.png[]
-image::images/create-user-api/create-product-15.png[]
-image::images/create-user-api/create-product-16.png[]
-image::images/create-user-api/create-product-17.png[]
-image::images/create-user-api/create-product-18.png[]
-image::images/create-user-api/create-product-19.png[]
-image::images/create-user-api/create-product-20.png[]
-image::images/create-user-api/create-product-21.png[]
-image::images/create-user-api/create-product-22.png[]
+image::images/create-product/create-product-14.png[]
+image::images/create-product/create-product-15.png[]
+image::images/create-product/create-product-16.png[]
+image::images/create-product/create-product-17.png[]
+image::images/create-product/create-product-18.png[]
+image::images/create-product/create-product-19.png[]
+image::images/create-product/create-product-20.png[]
+image::images/create-product/create-product-21.png[]
+image::images/create-product/create-product-22.png[]
 
 . Now that we have an application, the `USER_KEY` query parameter is filled with a valid key from the application that we just created.
 +
-image::images/create-user-api/create-product-23.png[]
-image::images/create-user-api/create-product-24.png[]
+image::images/create-product/create-product-23.png[]
+image::images/create-product/create-product-24.png[]
 
 [time=10]
 == Exposing User API through developer portal
