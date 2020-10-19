@@ -275,6 +275,13 @@ Could you see the list of users returned by the `/users` endpoint?
 
 link:https://orders-rest-fuse-{user-username}.{openshift-app-host}[https://orders-rest-fuse-{user-username}.{openshift-app-host}, window="_blank", , id="orders-rest-api"]
 
++
+image::images/38.png[]
+
++
+image::images/39.png[]
+
+[time=10]
 == 3Scale first contact through Wizard
 
 First, to get familiarized with 3Scale, let's open the link:{3scale-user-url}/p/admin/onboarding/wizard[Welcome Wizard, window="_blank", , id="welcome-wizard"]Welcome Wizard that is part of 3Scale admin onboarding for users' first access.
@@ -329,6 +336,7 @@ image::images/api-onboarding/wizard-10.png[]
 +
 image::images/api-onboarding/wizard-11.png[]
 
+[time=10]
 == Creating the User API Backends
 
 API Backends is a fundamental part of 3Scale API Management, when we have a bunch of API Backends it allows to manage it easily.
@@ -446,6 +454,7 @@ image::images/create-user-api/create-backends-25.png[]
 Now that we have the Backends we can work to create a `Product` representing multiples backends 
 and finally expose this API on 3Scale API Management.
 
+[time=10]
 == Creating the Users API Product
 
 image::images/create-user-api/create-product-01.png[]
@@ -474,6 +483,7 @@ image::images/create-user-api/create-product-22.png[]
 image::images/create-user-api/create-product-23.png[]
 image::images/create-user-api/create-product-24.png[]
 
+[time=10]
 == Exposing User API through developer portal
 
 image::images/developer-portal/developer-portal-01.png[]
@@ -506,6 +516,7 @@ image::images/developer-portal/developer-portal-25.png[]
 image::images/developer-portal/developer-portal-26.png[]
 image::images/developer-portal/developer-portal-27.png[]
 
+[time=5]
 == User APIs Analytics
 
 image::images/analytics/analytics-01.png[]
