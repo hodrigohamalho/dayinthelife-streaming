@@ -271,9 +271,11 @@ link:https://i-users-api-fuse-{user-username}.{openshift-app-host}/users[https:/
 [type=verification]
 Could you see the list of users returned by the `/users` endpoint?
 
-== Exposing the Users API through Red Hat 3Scale API Management
+. Also we will use a Orders REST api you can explore then through the `swagger-ui`
 
-=== Creating API through 3Scale Wizard
+link:https://orders-rest-fuse-{user-username}.{openshift-app-host}[https://orders-rest-fuse-{user-username}.{openshift-app-host}, window="_blank", , id="orders-rest-api"]
+
+== 3Scale first contact through Wizard
 
 First, to get familiarized with 3Scale, let's open the link:{3scale-user-url}/p/admin/onboarding/wizard[Welcome Wizard, window="_blank", , id="welcome-wizard"]Welcome Wizard that is part of 3Scale admin onboarding for users' first access.
 
@@ -299,7 +301,7 @@ image::images/api-onboarding/wizard-04.png[]
 
 . 3Scale Wizard Test Request
 +
-image::images/api-onboarding/apionboarding/wizard-05.png[]
+image::images/api-onboarding/wizard-05.png[]
 
 . 3Scale Wizard Overview Request Flow
 +
@@ -327,9 +329,7 @@ image::images/api-onboarding/wizard-10.png[]
 +
 image::images/api-onboarding/wizard-11.png[]
 
-=== Creating the User API
-
-==== Create the API Backends
+== Creating the User API Backends
 
 API Backends is a fundamental part of 3Scale API Management, when we have a bunch of API Backends it allows to manage it easily.
 
@@ -381,7 +381,7 @@ image::images/create-user-api/create-backends-07.png[]
 +
 image::images/create-user-api/create-backends-08.png[]
 
-. Let's create the `mapping rule`, `mapping rule` is the http path that will be requested to access the endpoint.
+. Let's create the `mapping rule`. `Mapping rule` is the http path that will be requested to access the endpoint.
 
 . Create the `Get users` Mapping rule
 
@@ -407,7 +407,7 @@ image::images/create-user-api/create-backends-12.png[]
 
 . The `Users API` Backend Overview should look like that
 +
-image::images/create-user-api/create-backends-14.png[]
+image::images/create-user-api/create-backends-13.png[]
 
 . Now, let's repeat the Backend creation process but for the `Orders API`, Click on `Create Backend`
 
@@ -446,7 +446,7 @@ image::images/create-user-api/create-backends-25.png[]
 Now that we have the Backends we can work to create a `Product` representing multiples backends 
 and finally expose this API on 3Scale API Management.
 
-=== Creating the Users API Product
+== Creating the Users API Product
 
 image::images/create-user-api/create-product-01.png[]
 image::images/create-user-api/create-product-02.png[]
@@ -472,3 +472,42 @@ image::images/create-user-api/create-product-20.png[]
 image::images/create-user-api/create-product-21.png[]
 image::images/create-user-api/create-product-22.png[]
 image::images/create-user-api/create-product-23.png[]
+image::images/create-user-api/create-product-24.png[]
+
+== Exposing User API through developer portal
+
+image::images/developer-portal/developer-portal-01.png[]
+image::images/developer-portal/developer-portal-02.png[]
+image::images/developer-portal/developer-portal-03.png[]
+image::images/developer-portal/developer-portal-04.png[]
+image::images/developer-portal/developer-portal-05.png[]
+image::images/developer-portal/developer-portal-06.png[]
+image::images/developer-portal/developer-portal-06-1.png[]
+image::images/developer-portal/developer-portal-06-2.png[]
+image::images/developer-portal/developer-portal-07.png[]
+image::images/developer-portal/developer-portal-08.png[]
+image::images/developer-portal/developer-portal-09.png[]
+image::images/developer-portal/developer-portal-10.png[]
+image::images/developer-portal/developer-portal-11.png[]
+image::images/developer-portal/developer-portal-12.png[]
+image::images/developer-portal/developer-portal-13.png[]
+image::images/developer-portal/developer-portal-14.png[]
+image::images/developer-portal/developer-portal-15.png[]
+image::images/developer-portal/developer-portal-16.png[]
+image::images/developer-portal/developer-portal-17.png[]
+image::images/developer-portal/developer-portal-18.png[]
+image::images/developer-portal/developer-portal-19.png[]
+image::images/developer-portal/developer-portal-20.png[]
+image::images/developer-portal/developer-portal-21.png[]
+image::images/developer-portal/developer-portal-22.png[]
+image::images/developer-portal/developer-portal-23.png[]
+image::images/developer-portal/developer-portal-24.png[]
+image::images/developer-portal/developer-portal-25.png[]
+image::images/developer-portal/developer-portal-26.png[]
+image::images/developer-portal/developer-portal-27.png[]
+
+== User APIs Analytics
+
+image::images/analytics/analytics-01.png[]
+image::images/analytics/analytics-02.png[]
+image::images/analytics/analytics-03.png[]
