@@ -606,7 +606,13 @@ image::images/developer-portal/developer-portal-09.png[]
 +
 image::images/developer-portal/developer-portal-10.png[]
 
-. Define those features for the use can know which is the best fit for the plan that he need.
+. Define those features allowing the user choose the which has the best fit. In order to make this plan *Read Only* Disable the `Create User` method and toggle following features:
+
+* Community Support
+* Free
+* Limited Calls
+* Read Only
+
 +
 image::images/developer-portal/developer-portal-11.png[]
 
@@ -615,27 +621,74 @@ image::images/developer-portal/developer-portal-11.png[]
 image::images/developer-portal/developer-portal-12.png[]
 
 . For the `Production Plan`, create a new `pricing rule` on the `Product Level` since it doesn't have any limit, it's fair to be paid.
-image::images/developer-portal/developer-portal-13.png[]
+image::images/developer-portal/developer-portal-13.png[] 
 
 . Define a rule that charge `1$` for `10 API calls`. Yes, it's expensive, our service is first class and the content is super valuable.
 image::images/developer-portal/developer-portal-14.png[]
+
+. In the `Production` plan, toggle the following Features:
+
+* 24/7 support
+* Unlimited calls
+* Read and Write
+
++
 image::images/developer-portal/developer-portal-15.png[]
+
+. Return to the `Developer Portal` web page and take a look in the plans description, after click on `Signup to plan sandbox`
++
 image::images/developer-portal/developer-portal-16.png[]
+
+. Fill the form with the application information
++ 
 image::images/developer-portal/developer-portal-17.png[]
+
+. The new account needs to be *Activated*, usually this process is via Email, but as we are not working with valid email address here, let's approve it manually in the following steps.
++
 image::images/developer-portal/developer-portal-18.png[]
+
+. Navigate to the `Audience > Account > Listing` and click on `Activate`.
++
 image::images/developer-portal/developer-portal-19.png[]
+
+. Return to the `Developer Portal` and do the sign in providing the credentials that you defined
++
 image::images/developer-portal/developer-portal-20.png[]
+
+. Now that you are authenticated, click on `See your Applications & Credentials`
++
 image::images/developer-portal/developer-portal-21.png[]
-image::images/developer-portal/developer-portal-22.png[]
+
+. Click on `Create new application`
++
 image::images/developer-portal/developer-portal-23.png[]
+
+. Select the service `Users API`
++
 image::images/developer-portal/developer-portal-24.png[]
+
+. Fill the form with `mobile-app` for Name and `Mobile App` for the description field
++
 image::images/developer-portal/developer-portal-25.png[]
+
+. The applicaiton is properly registered and you can use the `User keys` to call the `Users API`.
++
 image::images/developer-portal/developer-portal-26.png[]
+
+. Make some requests, and after going to see the `Statistics` into the developer portal, it allows the user to have total control over how it is using each API.
 image::images/developer-portal/developer-portal-27.png[]
 
 [time=5]
 == User APIs Analytics
 
+. After making some requests into the `User APIs` you can see how the analytics works. Hits represent all the requests, and also you can see the requests for each method.
++
 image::images/analytics/analytics-01.png[]
+
+. Click on the `Top application` in the left menu and see which is the applications that are consuming the `Users API`. This metric is strategic to understand how the customers is using your APIs and try to adjust plans to better fit them.
++
 image::images/analytics/analytics-02.png[]
+
+. It's also possible to see the metrics into the perspective of the `Backend`.
++
 image::images/analytics/analytics-03.png[]
