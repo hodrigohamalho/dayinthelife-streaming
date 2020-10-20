@@ -62,7 +62,7 @@ For the 3Scale API Management you are going to use *redhat* as password.
 
 :sectnums:
 
-[time=15]
+[time=20]
 == Creating the Users API using the Low code Integration Solution Fuse Online
 
 In order to create the Users API, first we need to manage to connect with the Users database.
@@ -565,21 +565,59 @@ image::images/create-product/create-product-24.png[]
 [time=10]
 == Exposing User API through developer portal
 
+. Select `Audience` on the upper drop down menu
++ 
 image::images/developer-portal/developer-portal-01.png[]
+
+. Select `Audience` on the upper drop down menu
++ 
 image::images/developer-portal/developer-portal-02.png[]
+
+. Select `Developer Portal` > `Content` > `Homepage`. Before to start editing, Click on `Visit Portal` to see the Out of the box Developer Portal provided. Notice that it is pre configured to use the `Echo API`, we will work to change it to work with the `Users API` that we just configured.
++ 
 image::images/developer-portal/developer-portal-03.png[]
+
+. Change the line 5 of the Homepage to `Users API` instead of `Echo API`
++ 
 image::images/developer-portal/developer-portal-04.png[]
-image::images/developer-portal/developer-portal-05.png[]
+
+. Change the line `124` to `users-api` instead of `api`
++ 
 image::images/developer-portal/developer-portal-06.png[]
+
+. Before go ahead let's toggle some features of the portal, for this select the `Feature Visibility` from the side menu, and select to `Show` all of them 
++ 
 image::images/developer-portal/developer-portal-06-1.png[]
 image::images/developer-portal/developer-portal-06-2.png[]
+
+. Take a look on the changes, it's already working with the Users API, and showing the applications plans defined.
++ 
 image::images/developer-portal/developer-portal-07.png[]
+
+. But the application plans is not properly defined, to best reflect real situations we need to do some adjusts on both of them. Navigate to the `Application Plans` option, using `Product: Users API` > `Applications` > `Application Plans` > `Sandbox`.
++
 image::images/developer-portal/developer-portal-08.png[]
+
+. Select `Limits` option under `Product Level` and click on `New usage limit`
++ 
 image::images/developer-portal/developer-portal-09.png[]
+
+. Define a limit of 5 requests per minute
++
 image::images/developer-portal/developer-portal-10.png[]
+
+. Define those features for the use can know which is the best fit for the plan that he need.
++
 image::images/developer-portal/developer-portal-11.png[]
+
+. Your application plans should looks like it, remember to publish both
++
 image::images/developer-portal/developer-portal-12.png[]
+
+. For the `Production Plan`, create a new `pricing rule` on the `Product Level` since it doesn't have any limit, it's fair to be paid.
 image::images/developer-portal/developer-portal-13.png[]
+
+. Define a rule that charge `1$` for `10 API calls`. Yes, it's expensive, our service is first class and the content is super valuable.
 image::images/developer-portal/developer-portal-14.png[]
 image::images/developer-portal/developer-portal-15.png[]
 image::images/developer-portal/developer-portal-16.png[]
