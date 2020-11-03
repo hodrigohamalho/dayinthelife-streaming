@@ -263,19 +263,9 @@ image::images/00-uncomment-codegen.png[00-uncomment-codegen.png, role="integr8ly
 
 . We now need to generate the POJO objects from the WSDL contract. To do this, change to the *Manage commands* view.
 
-. Click the *+* button next to the *Build* folder. Click *Maven*. Enter `run generate-sources` for the Name, then enter `mvn generate-sources -f ${current.project.path}/pom.xml` for the Command. Click *Save*.
+. Open the *Terminal* and `run`. `mvn generate-sources`.
 +
 image::images/00-save-run-soap.png[00-save-run-soap.png, role="integr8ly-img-responsive"]
-
-. Double-click the `run generate-sources` script. Click *Run* to execute the script.
-+
-image::images/00-generate-sources.png[00-generate-sources.png, role="integr8ly-img-responsive"]
-
-. Once the script has completed, navigate back to the *Workspace* view and open the `src/main/java/com/redhat` folder.  Notice that there are a bunch of new POJO classes that were created by the Maven script.
-+
-_Common gotcha: If build fails due to used port, check if you are running with many instances of `run spring-boot`. You should only have 1 instance of `run-spring-boot`._
-+
-image::images/00-verify-pojos.png[00-verify-pojos.png, role="integr8ly-img-responsive"]
 
 [type=verification]
 Were you able to generate the POJO classes?
