@@ -1,0 +1,233 @@
+// Attributes
+:walkthrough: SOAP TO REST
+:title: Lab 5 - {walkthrough}
+:user-password: openshift
+:standard-fail-text: Verify that you followed all the steps. If you continue to have issues, contact a workshop assistant.
+:namespace: {user-username}
+
+// URLs
+:che-url: http://che-che.{openshift-app-host}/
+
+[id='soap-to-rest']
+= Developer Lab 4 - SOAP to REST Transformation
+
+In this lab, we will be using existing legacy SOAP service and wrap it with a new RESTful endpoint
+
+Audience: Developers, Architects
+
+*Overview*
+
+Another important use case in developing API's is to take an existing legacy SOAP service and wrap it with a new RESTful endpoint.  This SOAP to REST transformation is implemented in the API service layer (Fuse).  This lab will walk you through taking an existing SOAP contract (WSDL), converting it to Java POJO's and exposing it using Camel REST DSL.
+
+*Why Red Hat?*
+
+CodeReady Workspaces, our online IDE, provides important functionality for implementing API services. In this lab you can see how our CodeReady Workspaces and Fuse can help with SOAP to REST transformation on OpenShift.
+
+*Skipping The Lab*
+
+If you are planning to follow to the next lab or are having trouble with this lab, you can reference the working project link:{https://github.com/hodrigohamalho/dayinthelife-streams/tree/master/projects/location-soap2rest}[here]
+
+*Credentials*
+
+Use the following credentials to login into the web consoles:
+
+* Your *username* is: `{user-username}`
+* Your *password* is: `{user-password}`
+
+For the 3Scale API Management you are going to use *redhat* as password.
+
+[type=walkthroughResource]
+.Che
+****
+* link:{che-url}/[Open Eclipse Che, window="_blank"]
+****
+
+[type=walkthroughResource,serviceName=openshift]
+.Openshift
+****
+* link:{openshift-host}/[Open Console, window="_blank"]
+****
+
+:sectnums:
+
+[time=5]
+[id="instructions"]
+== Import the sample SOAP project into your Openshift project
+
+. Navigate back to your CodeReady Workspaces workspace and open the terminal window.
++
+image::images/00-open-terminal.png[00-open-terminal.png, role="integr8ly-img-responsive"]
+
+. Launch a new tab on your web browser.
+. Navigate to the Solution Explorer on that tab.
+. Click on the *Red Hat OpenShift* link.
+
+. Logon to the link:{openshift-url}[OpenShift Console, window="_blank"] using your credentials: `{user-username}` and `{user-password}`
++
+image::images/00-openshift-loginpage.png[00-openshift-loginpage.png, role="integr8ly-img-responsive"]
+
+. Obtain your user login command by clicking on your username on the top right hand corner and select *Copy Login Command*
++
+image::images/00-commend-login.png[00-commend-login.png, role="integr8ly-img-responsive"]
+
+. Navigate back to CodeReady Workspaces, open the terminal, and paste the login command from your clipboard.  Once you've logged-in, select the OpenShift project you created earlier using `oc project {user-username}`.
++
+image::images/00-login-terminal.png[00-login-terminal.png, role="integr8ly-img-responsive"]
+
+. Build and deploy the SOAP application using source to image(S2i) template. Paste the commend to the terminal.
++
+[source,bash,subs="attributes+"]
+----
+ oc new-app s2i-fuse71-spring-boot-camel -p GIT_REPO=https://github.com/RedHatWorkshops/dayinthelife-integration -p CONTEXT_DIR=/projects/location-soap -p APP_NAME=location-soap -p GIT_REF=master -n {user-username}
+----
+
+. Once the build and deploy is complete, navigate back to your Openshift web console and verify the project is running.
++
+image::images/00-verify-location-soap.png[00-verify-location-soap.png, role="integr8ly-img-responsive"]
+
+[type=verification]
+Were you able to build and deploy the SOAP application?
+
+[type=verificationFail]
+Try to redo this section, if any problem persists have your instructor check the Kubernetes pod that contains the SOAP application.
+
+
+[time=5]
+[id="instructions"]
+== Modify the skeleton project
+
+. In the OpenShift console, click on the route associated with the `location-soap` deployment.  A pop-up will appear.  Append the `/ws/location?wsdl` path to the URI and verify the WSDL appears. Copy the link to the clipboard.
++
+image::images/00-verify-wsdl.png[00-verify-wsdl.png, role="integr8ly-img-responsive"]
+
+. Return to your CodeReady Workspaces workspace and open the `dayintelife-import/location-soap2rest` project.  Open the `pom.xml` file and scroll to the bottom.  Uncomment out the `cxf-codegen-plugin` entry at the bottom.  Update the `<wsdl>` entry with your fully qualified WSDL URL e.g. `http://location-soap-{user-username}.{openshift-app-host}/ws/location?wsdl`.
++
+image::images/00-uncomment-codegen.png[00-uncomment-codegen.png, role="integr8ly-img-responsive"]
+
+. We now need to generate the POJO objects from the WSDL contract. To do this, change to the *Manage commands* view.
+
+. Click the *+* button next to the *Build* folder. Click *Maven*. Enter `run generate-sources` for the Name, then enter `mvn generate-sources -f ${current.project.path}/pom.xml` for the Command. Click *Save*.
++
+image::images/00-save-run-soap.png[00-save-run-soap.png, role="integr8ly-img-responsive"]
+
+. Double-click the `run generate-sources` script. Click *Run* to execute the script.
++
+image::images/00-generate-sources.png[00-generate-sources.png, role="integr8ly-img-responsive"]
+
+. Once the script has completed, navigate back to the *Workspace* view and open the `src/main/java/com/redhat` folder.  Notice that there are a bunch of new POJO classes that were created by the Maven script.
++
+_Common gotcha: If build fails due to used port, check if you are running with many instances of `run spring-boot`. You should only have 1 instance of `run-spring-boot`._
++
+image::images/00-verify-pojos.png[00-verify-pojos.png, role="integr8ly-img-responsive"]
+
+[type=verification]
+Were you able to generate the POJO classes?
+
+[type=verificationFail]
+Try to redo this section, if any problem persists have your instructor check the Kubernetes pod that contains the CodeReady Workspaces application.
+
+
+[time=10]
+[id="instructions"]
+== Update the Camel Route
+
+. Open up the `CamelRoutes.java` file.  Notice that the existing implementation is barebones. First of all, we need to enter the SOAP service address and WSDL location for our CXF client to call.
++
+[source,java,subs="attributes+"]
+----
+ ...
+
+ @Autowired
+ private CamelContext camelContext;
+
+ private static final String SERVICE_ADDRESS = "http://localhost:8080/ws/location";
+ private static final String WSDL_URL = "http://localhost:8080/ws/location?wsdl";
+
+ @Override
+ public void configure() throws Exception {
+
+ ...
+
+----
+
+. Secondly, we need to create our Camel route implementation and create the RESTful endpoint(still in the `CamelRoutes.java` file). Make sure the values to (`cxf://` URL): are correct
++
+[source,java,subs="attributes+"]
+----
+
+ ...
+
+     rest("/location").description("Location information")
+         .produces("application/json")
+         .get("/contact/{id}").description("Location Contact Info")
+             .responseMessage().code(200).message("Data successfully returned").endResponseMessage()
+             .to("direct:getalllocationphone")
+
+     ;
+
+     from("direct:getalllocationphone")
+         .setBody().simple("${headers.id}")
+         .unmarshal().json(JsonLibrary.Jackson)
+         .to("cxf://http://location-soap-{user-username}.{openshift-app-host}/ws/location?serviceClass=com.redhat.LocationDetailServicePortType&defaultOperationName=contact")
+
+         .process(
+                 new Processor(){
+
+                     @Override
+                     public void process(Exchange exchange) throws Exception {
+                         //LocationDetail locationDetail = new LocationDetail();
+                         //locationDetail.setId(Integer.valueOf((String)exchange.getIn().getHeader("id")));
+
+                         MessageContentsList list = (MessageContentsList)exchange.getIn().getBody();
+
+                         exchange.getOut().setBody((ContactInfo)list.get(0));
+                     }
+                 }
+         )
+
+     ;
+
+     }
+ }
+----
+
+. Now that we have our API service implementation, we can try to test this locally.  Navigate back to the *Manage commands* view and execute the `run spring-boot` script.  Click the *Run* button.
++
+image::images/00-local-testing.png[00-local-testing.png, role="integr8ly-img-responsive"]
+
+. Once the application starts, navigate to the Servers window and click on the URL corresponding to port 8080.  A new tab should appear:
++
+image::images/00-select-servers.png[00-select-servers.png, role="integr8ly-img-responsive"]
+
+. In the new tab, append the URL with the following URI: `/location/contact/2`.  A contact should be returned:
++
+image::images/00-hit-contact-local.png[00-hit-contact-local.png, role="integr8ly-img-responsive"]
+
+. Now that we've successfully tested our new SOAP to REST service locally, we can deploy it to OpenShift.  Stop the running application by clicking *Cancel*.
+. Open the `fabric8:deploy` script and hit the *Run* button to deploy it to OpenShift.
++
+image::images/00-mvn-f8-deploy.png[00-mvn-f8-deploy.png, role="integr8ly-img-responsive"]
+
+. If the deployment script completes successfully, navigate back to your Openshift web console and verify the pod is running
++
+image::images/00-verify-pod.png[00-verify-pod.png, role="integr8ly-img-responsive"]
+
+. Click on the route link above the location-soap2rest pod and append `/location/contact/2` to the URI.  As a result, you should get a contact back.
+
+[type=verification]
+Were you able to retrieve a contact?
+
+[type=verificationFail]
+Try to redo this section, if any problem persists have your instructor check the Kubernetes pod that contains the CodeReady Workspaces application.
+
+
+
+_Congratulations!_ You have created a SOAP to REST transformation API.
+
+[time=2]
+[id="summary"]
+== Overview
+
+You have now successfully created a contract-first API using a SOAP WSDL contract together with generated Camel RESTdsl.
+
+You can now proceed to link:{next-lab-url}[Lab 5].
