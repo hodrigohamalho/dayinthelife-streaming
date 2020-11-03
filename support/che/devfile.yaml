@@ -1,14 +1,12 @@
----
 apiVersion: 1.0.0
 metadata:
   generateName: dil-streaming-
 projects:
   -
-    name: FleurDeLune
+    name: soap2rest
     source:
       type: git
-      location: "https://github.com/RedHatWorkshops/dayinthelife-streaming"
-      sparseCheckoutDir: "projects"
+      location: "https://github.com/hodrigohamalho/fuse-soap-2-rest"
 components:
   -
     type: chePlugin
@@ -19,29 +17,76 @@ components:
   -
     type: chePlugin
     id: redhat/java/latest
+  - 
+    type: dockerimage
+    alias: maven
+    image: 'quay.io/eclipse/che-java8-maven@sha256:348edafc2935bb8a8f4b7d1d95e9155581f9557b8c7a9a68b0ad0263bf77fa16'
+    env:
+      - name: MAVEN_CONFIG
+        value: ''
+      - name: MAVEN_OPTS
+        value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom'
+      - name: JAVA_OPTS
+        value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom'
+      - name: JAVA_TOOL_OPTIONS
+        value: '-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10 -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom'
+    volumes:
+      - name: m2
+        containerPath: /home/user/.m2
+    memoryLimit: 512Mi
+    endpoints:
+      - name: 8080-tcp
+        port: 8080
+    mountSources: true
   -
     type: dockerimage
     alias: tools
     image: quay.io/weimeilin79/java8tools:latest
-    env:
-      - name: MAVEN_CONFIG
-        value: ""
-      - name: JAVA_OPTS
-        value: "-XX:MaxRAMPercentage=50.0 -XX:+UseParallelGC -XX:MinHeapFreeRatio=10
-          -XX:MaxHeapFreeRatio=20 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
-          -Dsun.zip.disableMemoryMapping=true -Xms20m -Djava.security.egd=file:/dev/./urandom
-          -Duser.home=/home/user"
-      - name: MAVEN_OPTS
-        value: $(JAVA_OPTS)
     memoryLimit: 768Mi
     endpoints:
       - name: '8080/tcp'
         port: 8080
-    mountSources: true
-    volumes:
-      - name: m2
-        containerPath: /home/user/.m2
   - 
     alias: vscode-camelk
     type: chePlugin
     reference: https://raw.githubusercontent.com/RedHatWorkshops/dayinthelife-streaming/master/support/che/meta.yaml
+commands:
+  - name: build the project
+    actions:
+      - type: exec
+        component: maven
+        command: mvn clean install
+        workdir: '${CHE_PROJECTS_ROOT}/soap2rest/location-soap2rest'
+  - name: Generate source from WSDL
+    actions:
+      - type: exec
+        component: maven
+        command: mvn generate-sources
+        workdir: '${CHE_PROJECTS_ROOT}/soap2rest/location-soap2rest'
+  - name: run the services
+    actions:
+      - type: exec
+        component: maven
+        command: 'mvn spring-boot:run -DskipTests'
+        workdir: '${CHE_PROJECTS_ROOT}/soap2rest/location-soap2rest'
+  - name: run the services (debugging enabled)
+    actions:
+      - type: exec
+        component: maven
+        command: 'mvn spring-boot:run -DskipTests -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"'
+        workdir: '${CHE_PROJECTS_ROOT}/soap2rest/location-soap2rest'
+  - name: Debug remote java application
+    actions:
+      - type: vscode-launch
+        referenceContent: |
+          {
+          "version": "0.2.0",
+          "configurations": [
+            {
+              "type": "java",
+              "name": "Debug (Attach) - Remote",
+              "request": "attach",
+              "hostName": "localhost",
+              "port": 5005
+            }]
+          }
