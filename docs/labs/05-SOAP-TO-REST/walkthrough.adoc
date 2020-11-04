@@ -51,7 +51,7 @@ For the 3Scale API Management you are going to use *redhat* as password.
 :sectnums:
 
 [time=5]
-=== Eclipse Che Workspace and Setup the environment
+== Eclipse Che Workspace and Setup the environment
 . To provision Eclipse Che Workspace, navigate to Eclipse Che console: {che-url}[Eclipse Che, window="_blank", id="{context}-3"]
 
 . Login to Che using your credentials (`{user-username}` and `{user-password}`).
@@ -275,7 +275,7 @@ Try to redo this section, if any problem persists have your instructor check the
 
 
 [time=10]
-[id="instructions"]
+[id="instructions-camel-route"]
 == Update the Camel Route
 
 . Open up the `CamelRoutes.java` file.  Notice that the existing implementation is barebones. First of all, we need to enter the SOAP service address and WSDL location for our CXF client to call.
