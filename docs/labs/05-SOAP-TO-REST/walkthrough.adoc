@@ -256,7 +256,7 @@ image::images/wsdl-test.png[wsdl-test.png, role="integr8ly-img-responsive"]
 . Now we are going to work in a Java project in order to convert this to REST.
 +
 
-. Return to your CodeReady workspace and open the `location-soap2rest` project.  Open the `pom.xml` file and scroll to the bottom.  Uncomment out the `cxf-codegen-plugin` entry at the bottom.  Update the `<wsdl>` entry with your fully qualified WSDL URL: `http://location-soap-{user-username}.{user-username}.svc:8080/ws/location?wsdl`
+. Return to your CodeReady workspace and open the `location-soap2rest` project.  Open the `pom.xml` file and scroll to the bottom.  Uncomment out the `cxf-codegen-plugin` entry at the bottom.  Update the `<wsdl>` entry with your fully qualified WSDL URL: `http://location-soap.{user-username}.svc:8080/ws/location?wsdl`
 +
 image::images/uncomment-codegen.png[00-uncomment-codegen.png, role="integr8ly-img-responsive"]
 
@@ -300,6 +300,7 @@ Try to redo this section, if any problem persists have your instructor check the
 
  ...
 
+    // Declare the rest endpoint /location/contact/{id}
     rest("/location").description("Location information")
       .produces("application/json")
       .get("/contact/{id}").description("Location Contact Info")
@@ -308,13 +309,15 @@ Try to redo this section, if any problem persists have your instructor check the
 
     from("direct:getalllocationphone")
       .setBody().simple("${headers.id}")
-      .unmarshal().json(JsonLibrary.Jackson)
-      .to("cxf://http://location-soap-{user-username}.{openshift-app-host}/ws/location?serviceClass=com.redhat.LocationDetailServicePortType&defaultOperationName=contact")
+      .unmarshal().json(JsonLibrary.Jackson) // Convert to JSON
+      // Call the SOAP endpoint using the CXF component
+      .to("cxf://http://location-soap.{user-username}.svc:8080/ws/location?serviceClass=com.redhat.LocationDetailServicePortType&defaultOperationName=contact")
       .process(
         new Processor(){
           @Override
           public void process(Exchange exchange) throws Exception {
             MessageContentsList list = (MessageContentsList)exchange.getIn().getBody();
+            // handle to put the correct content in the response
             exchange.getOut().setBody((ContactInfo)list.get(0));
           }
       });
