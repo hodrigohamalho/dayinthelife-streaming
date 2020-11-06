@@ -19,6 +19,12 @@ Audience: Developers, Architects
 
 Another important use case in developing API's is to take an existing legacy SOAP service and wrap it with a new RESTful endpoint.  This SOAP to REST transformation is implemented in the API service layer (Fuse).  This lab will walk you through taking an existing SOAP contract (WSDL), converting it to Java POJO's and exposing it using Camel REST DSL.
 
+In order to be able to accomplish the SOAP to REST task we will need to follow those steps:
+
+. Generate the stubs using **cxf-codegen** through a **Maven** plugin
+. Build a Camel Route to use it 
+. Deploy into OCP
+
 *Why Red Hat?*
 
 CodeReady Workspaces, our online IDE, provides important functionality for implementing API services. In this lab you can see how our CodeReady Workspaces and Fuse can help with SOAP to REST transformation on OpenShift.
@@ -59,7 +65,12 @@ For the 3Scale API Management you are going to use *redhat* as password.
 +
 image::images/1.1.2-login.png[1.1.2-login, role="integr8ly-img-responsive"]
 
-. Click the **Create Workspace** button to open your workspace. And paste the following content
+. **Stop** the running workspace.
++
+image::images/create-new-workspace.png[create-new-workspace, role="integr8ly-img-responsive"]
+
+
+. Let's create a new one. Click the **Create Workspace** button to open your workspace. And paste the following content
 +
 image::images/create-new-workspace.png[create-new-workspace, role="integr8ly-img-responsive"]
 
@@ -207,7 +218,7 @@ oc project {namespace}
 
 . Click on the the Topology view (left side menu)
 +
-image:images/opensopenshift-initial-topology.png[Back To Topology]
+image:images/topology-view.png[Back To Topology]
 
 [id="instructions"]
 == Import the sample SOAP project into your Openshift project
