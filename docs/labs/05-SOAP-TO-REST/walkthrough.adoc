@@ -67,8 +67,7 @@ image::images/1.1.2-login.png[1.1.2-login, role="integr8ly-img-responsive"]
 
 . **Stop** the running workspace.
 +
-image::images/create-new-workspace.png[create-new-workspace, role="integr8ly-img-responsive"]
-
+image::images/stop-running-workspace.png[create-new-workspace, role="integr8ly-img-responsive"]
 
 . Let's create a new one. Click the **Create Workspace** button to open your workspace. And paste the following content
 +
@@ -174,11 +173,12 @@ commands:
 
 . Click the **Workspace** button and open the `soap2rest/location-soap2rest` folder.
 +
-image::images/2.1.4-che-workspace-folder.png[2.1.4-che-workspace-folder, role="integr8ly-img-responsive"]
+image::images/01-workspace-1.png[01-workspace-1, role="integr8ly-img-responsive"]
 
 . Select **Terminal > Open Terminal in specific container** and select the container that begins with `dil-` (followed by a 5-digit alphanumeric code).  Click it and a terminal window should open.
 +
-image::images/2.1.6-terminal.png[2.1.6-terminal, role="integr8ly-img-responsive"]
+image::images/01-workspace-2.png[01-workspace-2, role="integr8ly-img-responsive"]
+image::images/01-workspace-3.png[01-workspace-2, role="integr8ly-img-responsive"]
 
 === Login into the OpenShift cluster
 
