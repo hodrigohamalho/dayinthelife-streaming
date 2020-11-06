@@ -61,7 +61,7 @@ image::images/1.1.2-login.png[1.1.2-login, role="integr8ly-img-responsive"]
 
 . Click the **Create Workspace** button to open your workspace. And paste the following content
 +
-image::images/2.1.3-open-workspace.png[2.1.3-open-workspace, role="integr8ly-img-responsive"]
+image::images/create-new-workspace.png[create-new-workspace, role="integr8ly-img-responsive"]
 
 [source,yaml,subs="attributes+"]
 ----
