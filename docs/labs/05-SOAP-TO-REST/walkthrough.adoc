@@ -223,26 +223,6 @@ image:images/topology-view.png[Back To Topology]
 [id="instructions"]
 == Import the sample SOAP project into your Openshift project
 
-. Navigate back to your CodeReady Workspaces workspace and open the terminal window.
-+
-image::images/00-open-terminal.png[00-open-terminal.png, role="integr8ly-img-responsive"]
-
-. Launch a new tab on your web browser.
-. Navigate to the Solution Explorer on that tab.
-. Click on the *Red Hat OpenShift* link.
-
-. Logon to the link:{openshift-url}[OpenShift Console, window="_blank"] using your credentials: `{user-username}` and `{user-password}`
-+
-image::images/00-openshift-loginpage.png[00-openshift-loginpage.png, role="integr8ly-img-responsive"]
-
-. Obtain your user login command by clicking on your username on the top right hand corner and select *Copy Login Command*
-+
-image::images/00-commend-login.png[00-commend-login.png, role="integr8ly-img-responsive"]
-
-. Navigate back to CodeReady Workspaces, open the terminal, and paste the login command from your clipboard.  Once you've logged-in, select the OpenShift project you created earlier using `oc project {user-username}`.
-+
-image::images/00-login-terminal.png[00-login-terminal.png, role="integr8ly-img-responsive"]
-
 . Build and deploy the SOAP application using source to image(S2i) template. Paste the commend to the terminal.
 +
 [source,bash,subs="attributes+"]
@@ -269,15 +249,22 @@ Try to redo this section, if any problem persists have your instructor check the
 +
 image::images/00-verify-wsdl.png[00-verify-wsdl.png, role="integr8ly-img-responsive"]
 
-. Return to your CodeReady Workspaces workspace and open the `dayintelife-import/location-soap2rest` project.  Open the `pom.xml` file and scroll to the bottom.  Uncomment out the `cxf-codegen-plugin` entry at the bottom.  Update the `<wsdl>` entry with your fully qualified WSDL URL e.g. `http://location-soap-{user-username}.{openshift-app-host}/ws/location?wsdl`.
+. (Optional) If you would like to test the web service, you can do using a WSDL client, like *SOAP UI*. Look at the result on the right.
 +
-image::images/00-uncomment-codegen.png[00-uncomment-codegen.png, role="integr8ly-img-responsive"]
+image::images/wsdl-test.png[wsdl-test.png, role="integr8ly-img-responsive"]
+
+. Now we are going to work in a Java project in order to convert this to REST.
++
+
+. Return to your CodeReady workspace and open the `location-soap2rest` project.  Open the `pom.xml` file and scroll to the bottom.  Uncomment out the `cxf-codegen-plugin` entry at the bottom.  Update the `<wsdl>` entry with your fully qualified WSDL URL: `http://location-soap-{user-username}.{user-username}.svc:8080/ws/location?wsdl`
++
+image::images/uncomment-codegen.png[00-uncomment-codegen.png, role="integr8ly-img-responsive"]
 
 . We now need to generate the POJO objects from the WSDL contract. To do this, change to the *Manage commands* view.
 
-. Open the *Terminal* and `run`. `mvn generate-sources`.
+. Open the *Terminal* and run `mvn generate-sources`. And look for the **BUILD SUCCESS** message on the console and the *POJO* classes generated under redhat package.
 +
-image::images/00-save-run-soap.png[00-save-run-soap.png, role="integr8ly-img-responsive"]
+image::images/00-verify-pojos.png[00-verify-pojos.png, role="integr8ly-img-responsive"]
 
 [type=verification]
 Were you able to generate the POJO classes?
