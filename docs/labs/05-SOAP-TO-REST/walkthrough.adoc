@@ -51,6 +51,7 @@ For the 3Scale API Management you are going to use *redhat* as password.
 :sectnums:
 
 [time=5]
+[id="getting-ready"]
 == Eclipse Che Workspace and Setup the environment
 . To provision Eclipse Che Workspace, navigate to Eclipse Che console: {che-url}[Eclipse Che, window="_blank", id="{context}-3"]
 
