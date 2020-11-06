@@ -260,7 +260,7 @@ image::images/wsdl-test.png[wsdl-test.png, role="integr8ly-img-responsive"]
 +
 image::images/uncomment-codegen.png[00-uncomment-codegen.png, role="integr8ly-img-responsive"]
 
-. We now need to generate the POJO objects from the WSDL contract. To do this, change to the *Manage commands* view.
+. We now need to generate the POJO objects from the WSDL contract. 
 
 . Open the *Terminal* and run `mvn generate-sources`. And look for the **BUILD SUCCESS** message on the console and the *POJO* classes generated under redhat package.
 +
