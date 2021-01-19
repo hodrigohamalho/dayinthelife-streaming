@@ -3,36 +3,37 @@ THREESCALE_PROJECT="apim"
 ROUTE=$(oc get route console -n openshift-console | awk -F ' ' '{print $2}' | awk '{if(NR>1)print}')
 ROUTE=$(echo ${route#*.})
 
-# oc replace --force -f - -n webapp <<EOF
-# apiVersion: "integreatly.org/v1alpha1"
-# kind: "WebApp"
-# metadata:
-#   name: tutorial-web-app
-#   namespace: webapp
-#   labels:
-#     app: tutorial-web-app
-# spec:
-#   app_label: tutorial-web-app
-#   template:
-#     path: /home/tutorial-web-app-operator/deploy/template/tutorial-web-app.yml
-#     parameters:
-#       OPENSHIFT_OAUTHCLIENT_ID: tutorial-web-app
-#       OPENSHIFT_OAUTH_HOST: "oauth-openshift.$ROUTE"
-#       OPENSHIFT_HOST: "console-openshift-console.$ROUTE"
-#       INSTALLED_SERVICES: |-
-#         { 
-#           "3scale":{ 
-#               "Host":"https://3scale-admin.$ROUTE",
-#               "Version":"2.7.0.GA"
-#           },
-#           "codeready":{ 
-#               "Host":"http://che-che.$ROUTE",
-#               "Version":"2.0.0"
-#           }
-#         }
-#       OPENSHIFT_VERSION: "4"
-#       WALKTHROUGH_LOCATIONS: https://github.com/hodrigohamalho/dayinthelife-streaming.git?walkthroughsFolder=/docs/labs/
-# EOF
+cat > webapp.yaml <<EOF
+apiVersion: "integreatly.org/v1alpha1"
+kind: "WebApp"
+metadata:
+  name: tutorial-web-app
+  namespace: webapp
+  labels:
+    app: tutorial-web-app
+spec:
+  app_label: tutorial-web-app
+  template:
+    path: /home/tutorial-web-app-operator/deploy/template/tutorial-web-app.yml
+    parameters:
+      OPENSHIFT_OAUTHCLIENT_ID: tutorial-web-app
+      OPENSHIFT_OAUTH_HOST: "oauth-openshift.$ROUTE"
+      OPENSHIFT_HOST: "console-openshift-console.$ROUTE"
+      INSTALLED_SERVICES: |-
+        { 
+          "3scale":{ 
+              "Host":"https://3scale-admin.$ROUTE",
+              "Version":"2.7.0.GA"
+          },
+          "codeready":{ 
+              "Host":"http://che-che.$ROUTE",
+              "Version":"2.0.0"
+          }
+        }
+      OPENSHIFT_VERSION: "4"
+      WALKTHROUGH_LOCATIONS: https://github.com/hodrigohamalho/dayinthelife-streaming.git?walkthroughsFolder=/docs/labs/
+EOF
+oc replace --force -f apim.yaml -n webapp
 
 
 # for i in $(seq 1 $NUM_USERS);
@@ -69,7 +70,7 @@ oc new-project $THREESCALE_PROJECT
 
 oc create -f 3scale-storage.yaml -n $THREESCALE_PROJECT
 oc create -f system-seed.yaml -n $THREESCALE_PROJECT
-oc replace --force -f - -n $THREESCALE_PROJECT <<EOF
+cat > apim.yaml <<EOF
 apiVersion: apps.3scale.net/v1alpha1
 kind: APIManager
 metadata:
@@ -78,6 +79,7 @@ spec:
   wildcardDomain: $ROUTE
   resourceRequirementsEnabled: false
 EOF
+oc replace --force -f apim.yaml -n $THREESCALE_PROJECT <<EOF
 
 echo "After the 3scale correctly get up, run the install-tenants.sh. Make sure to fill the toke variable properly"
 
