@@ -33,7 +33,7 @@ spec:
       OPENSHIFT_VERSION: "4"
       WALKTHROUGH_LOCATIONS: https://github.com/hodrigohamalho/dayinthelife-streaming.git?walkthroughsFolder=/docs/labs/
 EOF
-oc replace --force -f apim.yaml -n webapp
+oc replace --force -f webapp.yaml -n webapp
 
 
 # for i in $(seq 1 $NUM_USERS);
@@ -70,6 +70,7 @@ oc new-project $THREESCALE_PROJECT
 
 oc create -f 3scale-storage.yaml -n $THREESCALE_PROJECT
 oc create -f system-seed.yaml -n $THREESCALE_PROJECT
+
 cat > apim.yaml <<EOF
 apiVersion: apps.3scale.net/v1alpha1
 kind: APIManager
@@ -79,6 +80,7 @@ spec:
   wildcardDomain: $ROUTE
   resourceRequirementsEnabled: false
 EOF
+
 oc replace --force -f apim.yaml -n $THREESCALE_PROJECT <<EOF
 
 echo "After the 3scale correctly get up, run the install-tenants.sh. Make sure to fill the toke variable properly"
