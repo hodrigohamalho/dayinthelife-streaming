@@ -1,0 +1,7 @@
+apiVersion: apps.3scale.net/v1alpha1
+kind: APIManager
+metadata:
+  name: 3scale
+spec:
+  wildcardDomain: apps.cluster-femexfut-0d3c.femexfut-0d3c.sandbox1671.opentlc.com
+  resourceRequirementsEnabled: false
