@@ -3,7 +3,7 @@
 NUM_USERS=3
 MASTER_ACCESS_TOKEN=b79705efcdc77e8d06e8512ec7bcb78b
 ROUTE=$(oc get route console -n openshift-console | awk -F ' ' '{print $2}' | awk '{if(NR>1)print}')
-ROUTE=$(echo ${route#*.})
+ROUTE=$(echo ${ROUTE#*.})
 MASTER_URL=https://master.$ROUTE
 TENANT_PASSWORD=redhat
 
