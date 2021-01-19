@@ -1,12 +1,13 @@
 # CREATE TENANTS
 # GET THE MASTER ACCESS TOKEN AND URL
+NUM_USERS=3
+MASTER_ACCESS_TOKEN=b79705efcdc77e8d06e8512ec7bcb78b
 ROUTE=$(oc get route console -n openshift-console | awk -F ' ' '{print $2}' | awk '{if(NR>1)print}')
 ROUTE=$(echo ${route#*.})
 MASTER_URL=https://master.$ROUTE
-MASTER_ACCESS_TOKEN=c00a5f9586aea402cfa9f6450b9d9ad7de5e7e29c3526abe60a5f79fda1ef854
 TENANT_PASSWORD=redhat
 
-for i in {1..30};
+for i in $(seq 1 $NUM_USERS);
 do 
     TENANT_NAME=user$i
 
